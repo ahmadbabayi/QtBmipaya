@@ -4,6 +4,8 @@
 #include <QMainWindow>
 #include <QDir>
 #include <QtSql>
+#include <QFile>
+#include <QMessageBox>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -34,6 +36,9 @@ public:
     }
 
 private slots:
+    void TableReload();
+    void ErsalReload();
+
     void on_Sheba_returnPressed();
 
     void on_Name_returnPressed();
@@ -57,7 +62,14 @@ private slots:
     void on_SabtButton_pressed();
 
     void on_RemoveButton_clicked();
-    void TableReload();
+
+    void on_ErsalSheba_textChanged(const QString &arg1);
+
+    void on_ErsalSeri_textChanged(const QString &arg1);
+
+    void on_ErsalName_textChanged(const QString &arg1);
+
+    void on_ErsalSharh_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
