@@ -6,6 +6,7 @@
 #include <QtSql>
 #include <QFile>
 #include <QMessageBox>
+#include <QInputDialog>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -18,6 +19,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    bool virayesh = false;
+    int id=0;
+
     QSqlDatabase mydb;
     void dbclose(){
         mydb.close();
@@ -38,6 +42,7 @@ public:
 private slots:
     void TableReload();
     void ErsalReload();
+    bool ShebaCheck(QString s);
 
     void on_Sheba_returnPressed();
 
@@ -59,8 +64,6 @@ private slots:
 
     void on_Shenaseh_returnPressed();
 
-    void on_SabtButton_pressed();
-
     void on_RemoveButton_clicked();
 
     void on_ErsalSheba_textChanged(const QString &arg1);
@@ -70,6 +73,12 @@ private slots:
     void on_ErsalName_textChanged(const QString &arg1);
 
     void on_ErsalSharh_textChanged(const QString &arg1);
+
+    void on_RestoreButton_clicked();
+
+    void on_PrintdButton_clicked();
+
+    void on_EditButton_clicked();
 
 private:
     Ui::MainWindow *ui;

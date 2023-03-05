@@ -77,7 +77,7 @@
         <item row="0" column="0">
          <layout class="QHBoxLayout" name="horizontalLayout_3">
           <item>
-           <widget class="QLabel" name="label_4">
+           <widget class="QLabel" name="TarixShamsi">
             <property name="layoutDirection">
              <enum>Qt::RightToLeft</enum>
             </property>
@@ -314,6 +314,13 @@
        <widget class="QPushButton" name="MakeButton">
         <property name="text">
          <string>ایجاد فایل نهائی</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="EditButton">
+        <property name="text">
+         <string>ویراش</string>
         </property>
        </widget>
       </item>
