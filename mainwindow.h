@@ -82,6 +82,8 @@ private slots:
 
     void on_PrintButton_clicked();
 
+   void on_Mablagh_textEdited(const QString &arg1);
+
 private:
     Ui::MainWindow *ui;
 };

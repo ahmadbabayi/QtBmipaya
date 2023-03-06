@@ -183,13 +183,6 @@
         </property>
        </widget>
       </item>
-      <item row="2" column="3">
-       <widget class="QLineEdit" name="Mablagh">
-        <property name="maxLength">
-         <number>10</number>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="3">
        <widget class="QLineEdit" name="Name">
         <property name="layoutDirection">
@@ -220,6 +213,13 @@
        <widget class="QLabel" name="label_9">
         <property name="text">
          <string>IR</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="3">
+       <widget class="QLineEdit" name="Mablagh">
+        <property name="maxLength">
+         <number>13</number>
         </property>
        </widget>
       </item>
@@ -368,12 +368,13 @@
   <tabstop>Mablagh</tabstop>
   <tabstop>Sharh</tabstop>
   <tabstop>SabtButton</tabstop>
+  <tabstop>EditButton</tabstop>
   <tabstop>MakeButton</tabstop>
   <tabstop>PrintButton</tabstop>
   <tabstop>PrintdButton</tabstop>
   <tabstop>RemoveButton</tabstop>
-  <tabstop>tableView</tabstop>
   <tabstop>RestoreButton</tabstop>
+  <tabstop>tableView</tabstop>
  </tabstops>
  <resources/>
  <connections/>

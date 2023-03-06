@@ -132,10 +132,10 @@ void MainWindow::on_SabtButton_clicked()
     if (sehv){
     QSqlQuery query;
     if (virayesh){
-        query.exec("UPDATE paya SET sheba = '"+ui->Sheba->text()+"', shenaseh = '"+ui->Shenaseh->text()+"', name = '"+ui->Name->text()+"', mablagh = '"+ui->Mablagh->text()+"', sharh = '"+ui->Sharh->text()+"' WHERE id ="+ QString::number(id));
+        query.exec("UPDATE paya SET sheba = '"+ui->Sheba->text()+"', shenaseh = '"+ui->Shenaseh->text()+"', name = '"+ui->Name->text()+"', mablagh = '"+ui->Mablagh->text().replace(",","")+"', sharh = '"+ui->Sharh->text()+"' WHERE id ="+ QString::number(id));
     }
     else{
-        query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+ui->Sheba->text()+"','"+ui->Shenaseh->text()+"','"+ui->Name->text()+"','"+ui->Mablagh->text()+"','"+ui->Sharh->text()+"')");
+        query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+ui->Sheba->text()+"','"+ui->Shenaseh->text()+"','"+ui->Name->text()+"','"+ui->Mablagh->text().replace(",","")+"','"+ui->Sharh->text()+"')");
     }
 
     ui->Sheba->setFocus();
@@ -175,6 +175,8 @@ void MainWindow::TableReload(){
    ui->tableView->setItemDelegateForColumn(3, new NumberFormatDelegate(this));
    ui->tableView->resizeColumnsToContents();
    ui->tableView->resizeRowsToContents();
+   ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
+   ui->tableView->selectRow(10);
 }
 
 void MainWindow::ErsalReload(){
@@ -270,7 +272,11 @@ void MainWindow::on_EditButton_clicked()
             ui->Sheba->setText(query.value(1).toString());
             ui->Shenaseh->setText(query.value(2).toString());
             ui->Name->setText(query.value(3).toString());
-            ui->Mablagh->setText(query.value(4).toString());
+            QLocale::setDefault(QLocale::English);
+            QLocale ss;
+            QString str;
+            str = ss.toString(query.value(4).toString().toLong());
+            ui->Mablagh->setText(str);
             ui->Sharh->setText(query.value(5).toString());
             ui->Sheba->setFocus();
     }
@@ -285,5 +291,14 @@ void MainWindow::on_PrintButton_clicked()
     QString str;
     str = ss.toString(123456789);
     QMessageBox msgBox; msgBox.setText(str); msgBox.exec();
+}
+
+void MainWindow::on_Mablagh_textEdited(const QString &arg1)
+{
+    QLocale::setDefault(QLocale::English);
+    QLocale ss;
+    QString str;
+    str = ss.toString(ui->Mablagh->text().replace(",","").toLong());
+    ui->Mablagh->setText(str);
 }
 
