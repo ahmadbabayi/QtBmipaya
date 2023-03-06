@@ -175,8 +175,6 @@ void MainWindow::TableReload(){
    ui->tableView->setItemDelegateForColumn(3, new NumberFormatDelegate(this));
    ui->tableView->resizeColumnsToContents();
    ui->tableView->resizeRowsToContents();
-   ui->tableView->setSelectionMode(QAbstractItemView::SingleSelection);
-   ui->tableView->selectRow(10);
 }
 
 void MainWindow::ErsalReload(){
@@ -214,6 +212,22 @@ bool MainWindow::ShebaCheck(QString s){
       if ( i != 1 )
         result = false;
       return result;
+}
+
+QString MainWindow::InsertZero(QString s, int k){
+      int h = 0;
+      QString d;
+      h = s.length();
+      d = "0";
+      if ( h < k )
+      {
+        while ( h < k )
+        {
+          s = d + s;
+          h = h + 1;
+        }
+      }
+      return s;
 }
 
 void MainWindow::on_ErsalSheba_textChanged(const QString &arg1)
@@ -300,5 +314,23 @@ void MainWindow::on_Mablagh_textEdited(const QString &arg1)
     QString str;
     str = ss.toString(ui->Mablagh->text().replace(",","").toLong());
     ui->Mablagh->setText(str);
+}
+
+
+void MainWindow::on_MakeButton_clicked()
+{
+    QString xmlfile;
+    xmlfile = InsertZero(ui->ErsalSeri->text(),9);
+    xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
+    QFile file(xmlfile);
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+            return;
+
+        QTextStream out(&file);
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+        QMessageBox msgBox; msgBox.setText(xmlfile + " File Created!"); msgBox.exec();
 }
 

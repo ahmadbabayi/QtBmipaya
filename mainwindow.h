@@ -43,6 +43,7 @@ private slots:
     void TableReload();
     void ErsalReload();
     bool ShebaCheck(QString s);
+    QString InsertZero(QString s, int k);
 
     void on_Sheba_returnPressed();
 
@@ -83,6 +84,8 @@ private slots:
     void on_PrintButton_clicked();
 
    void on_Mablagh_textEdited(const QString &arg1);
+
+   void on_MakeButton_clicked();
 
 private:
     Ui::MainWindow *ui;
