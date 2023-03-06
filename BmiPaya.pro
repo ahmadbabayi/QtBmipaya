@@ -11,10 +11,12 @@ CONFIG += c++11
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
+    numberformatdelegate.cpp \
     qdatejalali.cpp
 
 HEADERS += \
     mainwindow.h \
+    numberformatdelegate.h \
     qdatejalali.h
 
 FORMS += \

@@ -80,6 +80,8 @@ private slots:
 
     void on_EditButton_clicked();
 
+    void on_PrintButton_clicked();
+
 private:
     Ui::MainWindow *ui;
 };

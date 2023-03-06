@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "qdatejalali.h"
+#include "numberformatdelegate.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -171,6 +172,7 @@ void MainWindow::TableReload(){
    model->setHeaderData(3, Qt::Horizontal, tr("مبلغ"));
    model->setHeaderData(4, Qt::Horizontal, tr("شرح"));
    ui->tableView->setModel(model);
+   ui->tableView->setItemDelegateForColumn(3, new NumberFormatDelegate(this));
    ui->tableView->resizeColumnsToContents();
    ui->tableView->resizeRowsToContents();
 }
@@ -274,5 +276,14 @@ void MainWindow::on_EditButton_clicked()
     }
     virayesh = true;
     }
+}
+
+void MainWindow::on_PrintButton_clicked()
+{
+    QLocale::setDefault(QLocale::English);
+    QLocale ss;
+    QString str;
+    str = ss.toString(123456789);
+    QMessageBox msgBox; msgBox.setText(str); msgBox.exec();
 }
 
