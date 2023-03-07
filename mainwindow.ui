@@ -259,7 +259,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_14">
+       <widget class="QLabel" name="SumLabel">
         <property name="layoutDirection">
          <enum>Qt::RightToLeft</enum>
         </property>
@@ -269,7 +269,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_7">
+       <widget class="QLabel" name="TedadLabel">
         <property name="layoutDirection">
          <enum>Qt::RightToLeft</enum>
         </property>

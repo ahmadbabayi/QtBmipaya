@@ -43,6 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     }
     ErsalReload();
     TableReload();
+    SumTedad();
 }
 
 MainWindow::~MainWindow()
@@ -144,6 +145,7 @@ void MainWindow::on_SabtButton_clicked()
     ui->Name->setText("");
     ui->Mablagh->setText("");
     TableReload();
+    SumTedad();
     ui->tableView->scrollToBottom();
     virayesh = false;
     }
@@ -188,6 +190,23 @@ void MainWindow::ErsalReload(){
     }
 }
 
+void MainWindow::SumTedad(){
+    QSqlQuery query;
+    quint64 qi;
+    tedad = 0;
+    sum = "";
+    query.exec("SELECT id FROM paya");
+    while (query.next()) {
+        tedad ++;
+    }
+    query.exec("SELECT SUM(mablagh) FROM paya");
+    while (query.next()) {
+        sum = query.value(0).toString();
+    }
+    ui->TedadLabel->setText("تعداد کل: "+QString::number(tedad));
+    ui->SumLabel->setText("جمع کل: "+ InsertComma(sum));
+}
+
 bool MainWindow::ShebaCheck(QString s){
     bool result = false;
       QString a, d, f;
@@ -226,6 +245,20 @@ QString MainWindow::InsertZero(QString s, int k){
           s = d + s;
           h = h + 1;
         }
+      }
+      return s;
+}
+
+QString MainWindow::InsertComma(QString s){
+      int f = 0, h = 0, k = 0;
+      k = s.length();
+      h = trunc( double( k ) / 3 );
+      for (f = 1; f <= h; f++)
+      {
+        if ( ( k - 3 ) != 0 ){
+            s.insert(k-3,",");
+        }
+        k = k - 3;
       }
       return s;
 }
@@ -286,11 +319,7 @@ void MainWindow::on_EditButton_clicked()
             ui->Sheba->setText(query.value(1).toString());
             ui->Shenaseh->setText(query.value(2).toString());
             ui->Name->setText(query.value(3).toString());
-            QLocale::setDefault(QLocale::English);
-            QLocale ss;
-            QString str;
-            str = ss.toString(query.value(4).toString().toLong());
-            ui->Mablagh->setText(str);
+            ui->Mablagh->setText(InsertComma(query.value(4).toString()));
             ui->Sharh->setText(query.value(5).toString());
             ui->Sheba->setFocus();
     }
@@ -319,6 +348,7 @@ void MainWindow::on_Mablagh_textEdited(const QString &arg1)
 
 void MainWindow::on_MakeButton_clicked()
 {
+    QDateJalali tarix;
     QString xmlfile;
     xmlfile = InsertZero(ui->ErsalSeri->text(),9);
     xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
@@ -328,8 +358,66 @@ void MainWindow::on_MakeButton_clicked()
 
         QTextStream out(&file);
         out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        out << "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n";
+        out << "<CstmrCdtTrfInitn>\n";
+        out << "<GrpHdr>\n";
+        out << "<MsgId>" << xmlfile.replace(".ccti","") << "</MsgId>\n";
+        out << "<CreDtTm>" << tarix.JalaliDate() << "T08:00:00</CreDtTm>\n";
+        out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
+        out << "<CtrlSum>" << sum << "</CtrlSum>\n";
+        out << "<InitgPty>\n";
+        out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
+        out << "</InitgPty>\n";
+        out << "</GrpHdr>\n";
+        out << "<PmtInf>\n";
+        out << "<PmtInfId>1</PmtInfId>\n";
+        out << "<PmtMtd>TRF</PmtMtd>\n";
+        out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
+        out << "<CtrlSum>" << sum << "</CtrlSum>\n";
+        out << "<ReqdExctnDt>" << tarix.JalaliDate() << "</ReqdExctnDt>\n";
+        out << "<Dbtr>\n";
+        out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
+        out << "</Dbtr>\n";
+        out << "<DbtrAcct>\n";
+        out << "<Id>\n";
+        out << "<IBAN>IR" << ui->ErsalSheba->text() << "</IBAN>\n";
+        out << "</Id>\n";
+        out << "</DbtrAcct>\n";
+        out << "<DbtrAgt>\n";
+        out << "<FinInstnId>\n";
+        out << "<BIC>BMJIIRTHXXX</BIC>\n";
+        out << "</FinInstnId>\n";
+        out << "</DbtrAgt>\n";
+
+        QSqlQuery query;
+        query.exec("SELECT * FROM paya");
+        while (query.next()) {
+                ui->ErsalSheba->setText(query.value(1).toString());
+                out << "<CdtTrfTxInf>\n";
+                out << "<PmtId>\n";
+                out << "<InstrId>" << query.value(2).toString() << "</InstrId>\n";
+                out << "<EndToEndId>EMPTY</EndToEndId>\n";
+                out << "</PmtId>\n";
+                out << "<Amt>\n";
+                out << "<InstdAmt Ccy=\"IRR\">" << query.value(4).toString() << "</InstdAmt>\n";
+                out << "</Amt>\n";
+                out << "<Cdtr>\n";
+                out << "<Nm>" << query.value(3).toString() << "</Nm>\n";
+                out << "</Cdtr>\n";
+                out << "<CdtrAcct>\n";
+                out << "<Id>\n";
+                out << "<IBAN>IR" << query.value(1).toString() << "</IBAN>\n";
+                out << "</Id>\n";
+                out << "</CdtrAcct>\n";
+                out << "<RmtInf>\n";
+                out << "<Ustrd>" << query.value(5).toString() << "</Ustrd>\n";
+                out << "</RmtInf>\n";
+                out << "</CdtTrfTxInf>\n";
+        }
+
+        out << "</PmtInf>\n";
+        out << "</CstmrCdtTrfInitn>\n";
+        out << "</Document>\n";
 
         QMessageBox msgBox; msgBox.setText(xmlfile + " File Created!"); msgBox.exec();
 }
