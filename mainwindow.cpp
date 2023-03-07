@@ -390,12 +390,14 @@ void MainWindow::on_MakeButton_clicked()
         out << "</DbtrAgt>\n";
 
         QSqlQuery query;
+        QString shenase;
         query.exec("SELECT * FROM paya");
         while (query.next()) {
                 ui->ErsalSheba->setText(query.value(1).toString());
                 out << "<CdtTrfTxInf>\n";
                 out << "<PmtId>\n";
-                out << "<InstrId>" << query.value(2).toString() << "</InstrId>\n";
+                shenase = (query.value(2).toString()!="") ? query.value(2).toString() : "EMPTY";
+                out << "<InstrId>" << shenase << "</InstrId>\n";
                 out << "<EndToEndId>EMPTY</EndToEndId>\n";
                 out << "</PmtId>\n";
                 out << "<Amt>\n";
