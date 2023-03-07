@@ -7,6 +7,10 @@
 #include <QFile>
 #include <QMessageBox>
 #include <QInputDialog>
+#include <QFileDialog>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QPainter>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -47,6 +51,7 @@ private slots:
     bool ShebaCheck(QString s);
     QString InsertZero(QString s, int k);
     QString InsertComma(QString s);
+    void print(QPrinter *printer);
 
     void on_Sheba_returnPressed();
 

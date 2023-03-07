@@ -204,6 +204,13 @@ void MainWindow::SumTedad(){
         sum = query.value(0).toString();
     }
     ui->TedadLabel->setText("تعداد کل: "+QString::number(tedad));
+    /*
+    QLocale::setDefault(QLocale::English);
+    QLocale ss;
+    QString str;
+    str = ss.toString(123456789);
+    QMessageBox msgBox; msgBox.setText(str); msgBox.exec();*/
+
     ui->SumLabel->setText("جمع کل: "+ InsertComma(sum));
 }
 
@@ -329,11 +336,20 @@ void MainWindow::on_EditButton_clicked()
 
 void MainWindow::on_PrintButton_clicked()
 {
-    QLocale::setDefault(QLocale::English);
-    QLocale ss;
-    QString str;
-    str = ss.toString(123456789);
-    QMessageBox msgBox; msgBox.setText(str); msgBox.exec();
+    QPrinter printer;
+    printer.setPageOrientation(QPageLayout::Landscape);
+    printer.setPageSize(QPageSize::A4);
+    printer.setFullPage(true);
+        //printer.setOutputFormat(QPrinter::PdfFormat);
+        //printer.setOutputFileName("nonwritable.pdf");
+
+        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer);
+        connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+        printPreview->setWindowTitle("Preview Dialog");
+        Qt::WindowFlags flags(Qt::WindowTitleHint);
+        printPreview->setWindowFlags(flags);
+        //printPreview->setContentsMargins(10,10,10,10);
+        printPreview->exec();
 }
 
 void MainWindow::on_Mablagh_textEdited(const QString &arg1)
@@ -422,5 +438,25 @@ void MainWindow::on_MakeButton_clicked()
         out << "</Document>\n";
 
         QMessageBox msgBox; msgBox.setText(xmlfile + " File Created!"); msgBox.exec();
+}
+
+void MainWindow::print(QPrinter *printer)
+{
+    QString txt;
+    QSqlQuery query;
+    query.exec("SELECT * FROM paya");
+
+    txt="<html width=\"100%\"><head><style>body {direction: rtl;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+         "<body><div dir=\"rtl\"><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"!</h3>"
+         "<table width=\"100%\"><tr><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
+    while (query.next()) {
+        txt += "<tr><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
+    }
+    txt += "<tr><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
+    txt += "</table><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
+    QTextDocument document;
+    document.setDocumentMargin(0.1);
+        document.setHtml(txt);
+        document.print(printer);
 }
 
