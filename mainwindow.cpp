@@ -102,35 +102,7 @@ void MainWindow::on_ErsalSharh_returnPressed()
 
 void MainWindow::on_SabtButton_clicked()
 {
-    bool sehv=true;
-    if(ui->Sharh->text() == ""){
-        sehv = false;
-        QMessageBox msgBox; msgBox.setText("شرح الزامی می‌باشد! "); msgBox.exec();
-        ui->Sharh->setFocus();
-    }
-    if (ui->Mablagh->text() == ""){
-        sehv = false;
-        QMessageBox msgBox; msgBox.setText("مبلغ الزامی می‌باشد! "); msgBox.exec();
-        ui->Mablagh->setFocus();
-    }
-    if (ui->Name->text() == ""){
-        sehv = false;
-        QMessageBox msgBox; msgBox.setText("نام و نام خانوادگی الزامی می‌باشد! "); msgBox.exec();
-        ui->Name->setFocus();
-    }
-    if (!ShebaCheck(ui->Sheba->text())){
-        sehv = false;
-        QMessageBox msgBox; msgBox.setText("شماره شبا نادرست می‌باشد! "); msgBox.exec();
-        ui->Sheba->setFocus();
-    }
-    quint64 qi = ui->Mablagh->text().replace(",","").toLong();
-    if (qi>1000000000){
-        sehv = false;
-        QMessageBox msgBox; msgBox.setText("حد اکثر مبلغ برای حواله پایا یک میلیارد ریال می‌باشد! "); msgBox.exec();
-        ui->Mablagh->setFocus();
-    }
-
-    if (sehv){
+    if (sehv()){
     QSqlQuery query;
     if (virayesh){
         query.exec("UPDATE paya SET sheba = '"+ui->Sheba->text()+"', shenaseh = '"+ui->Shenaseh->text()+"', name = '"+ui->Name->text()+"', mablagh = '"+ui->Mablagh->text().replace(",","")+"', sharh = '"+ui->Sharh->text()+"' WHERE id ="+ QString::number(id));
@@ -164,6 +136,7 @@ void MainWindow::on_RemoveButton_clicked()
     query.exec("DELETE FROM paya");
     query.exec("DELETE FROM sqlite_sequence");
     TableReload();
+    SumTedad();
 }
 void MainWindow::TableReload(){
    QSqlQueryModel *model = new QSqlQueryModel;
@@ -192,9 +165,7 @@ void MainWindow::ErsalReload(){
 
 void MainWindow::SumTedad(){
     QSqlQuery query;
-    quint64 qi;
     tedad = 0;
-    sum = "";
     query.exec("SELECT id FROM paya");
     while (query.next()) {
         tedad ++;
@@ -202,6 +173,9 @@ void MainWindow::SumTedad(){
     query.exec("SELECT SUM(mablagh) FROM paya");
     while (query.next()) {
         sum = query.value(0).toString();
+    }
+    if (sum == ""){
+        sum = "0";
     }
     ui->TedadLabel->setText("تعداد کل: "+QString::number(tedad));
     /*
@@ -268,6 +242,62 @@ QString MainWindow::InsertComma(QString s){
       return s;
 }
 
+bool MainWindow::sehv(){
+    bool xata=true;
+    if(ui->Sharh->text() == ""){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("شرح الزامی می‌باشد! "); msgBox.exec();
+        ui->Sharh->setFocus();
+    }
+    if (ui->Mablagh->text() == ""){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("مبلغ الزامی می‌باشد! "); msgBox.exec();
+        ui->Mablagh->setFocus();
+    }
+    if (ui->Name->text() == ""){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("نام و نام خانوادگی الزامی می‌باشد! "); msgBox.exec();
+        ui->Name->setFocus();
+    }
+    if (!ShebaCheck(ui->Sheba->text())){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("شماره شبا نادرست می‌باشد! "); msgBox.exec();
+        ui->Sheba->setFocus();
+    }
+    quint64 qi = ui->Mablagh->text().replace(",","").toLong();
+    if (qi>1000000000){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("حد اکثر مبلغ برای حواله پایا یک میلیارد ریال می‌باشد! "); msgBox.exec();
+        ui->Mablagh->setFocus();
+    }
+    return xata;
+}
+
+bool MainWindow::ErsalSehv(){
+    bool xata=true;
+    if(ui->ErsalSheba->text() == "" || ui->ErsalSeri->text() == "" || ui->ErsalName->text() == "" || ui->ErsalSharh->text() == ""){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("تمامی فیلدهای ارسال کننده حواله را پر کنید! "); msgBox.exec();
+        ui->ErsalSheba->setFocus();
+    }
+    if (!ShebaCheck(ui->ErsalSheba->text())){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("شماره شبای ارسال کننده حواله نادرست می‌باشد! "); msgBox.exec();
+        ui->ErsalSheba->setFocus();
+    }
+    int qi = ui->ErsalSeri->text().toInt();
+    if (qi<1){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("شماره سری به ترتیب از یک شروع شده و در هر ایجاد فایل باید یک واحد افزایش یابد! "); msgBox.exec();
+        ui->ErsalSeri->setFocus();
+    }
+    if (tedad < 1){
+        xata = false;
+        QMessageBox msgBox; msgBox.setText("لیست واریزی خالی می‌باشد! "); msgBox.exec();
+    }
+    return xata;
+}
+
 void MainWindow::on_ErsalSheba_textChanged(const QString &arg1)
 {
     QSqlQuery query;
@@ -309,7 +339,21 @@ void MainWindow::on_RestoreButton_clicked()
 
 void MainWindow::on_PrintdButton_clicked()
 {
-
+    if (ErsalSehv()){
+        QPrinter printer;
+        //printer.setPageOrientation(QPageLayout::Landscape);
+        printer.setPageSize(QPageSize::A4);
+        printer.setFullPage(true);
+        //printer.setOutputFormat(QPrinter::PdfFormat);
+        //printer.setOutputFileName("nonwritable.pdf");
+        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer);
+        connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printD(QPrinter*)));
+        printPreview->setWindowTitle("Preview Dialog");
+        Qt::WindowFlags flags(Qt::WindowTitleHint);
+        printPreview->setWindowFlags(flags);
+        //printPreview->setContentsMargins(10,10,10,10);
+        printPreview->exec();
+    }
 }
 
 
@@ -334,13 +378,13 @@ void MainWindow::on_EditButton_clicked()
 
 void MainWindow::on_PrintButton_clicked()
 {
-    QPrinter printer;
-    printer.setPageOrientation(QPageLayout::Landscape);
-    printer.setPageSize(QPageSize::A4);
-    printer.setFullPage(true);
+    if (ErsalSehv()){
+        QPrinter printer;
+        printer.setPageOrientation(QPageLayout::Landscape);
+        printer.setPageSize(QPageSize::A4);
+        printer.setFullPage(true);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
-
         QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer);
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
         printPreview->setWindowTitle("Preview Dialog");
@@ -348,6 +392,7 @@ void MainWindow::on_PrintButton_clicked()
         printPreview->setWindowFlags(flags);
         //printPreview->setContentsMargins(10,10,10,10);
         printPreview->exec();
+    }
 }
 
 void MainWindow::on_Mablagh_textEdited(const QString &arg1)
@@ -362,80 +407,82 @@ void MainWindow::on_Mablagh_textEdited(const QString &arg1)
 
 void MainWindow::on_MakeButton_clicked()
 {
-    QDateJalali tarix;
-    QString xmlfile;
-    xmlfile = InsertZero(ui->ErsalSeri->text(),9);
-    xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
-    QFile file(xmlfile);
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-            return;
+    if (ErsalSehv()){
+        QDateJalali tarix;
+        QString xmlfile;
+        xmlfile = InsertZero(ui->ErsalSeri->text(),9);
+        xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
+        QFile file(xmlfile);
+            if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+                return;
 
-        QTextStream out(&file);
-        out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        out << "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n";
-        out << "<CstmrCdtTrfInitn>\n";
-        out << "<GrpHdr>\n";
-        out << "<MsgId>" << xmlfile.replace(".ccti","") << "</MsgId>\n";
-        out << "<CreDtTm>" << tarix.JalaliDate() << "T08:00:00</CreDtTm>\n";
-        out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
-        out << "<CtrlSum>" << sum << "</CtrlSum>\n";
-        out << "<InitgPty>\n";
-        out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
-        out << "</InitgPty>\n";
-        out << "</GrpHdr>\n";
-        out << "<PmtInf>\n";
-        out << "<PmtInfId>1</PmtInfId>\n";
-        out << "<PmtMtd>TRF</PmtMtd>\n";
-        out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
-        out << "<CtrlSum>" << sum << "</CtrlSum>\n";
-        out << "<ReqdExctnDt>" << tarix.JalaliDate() << "</ReqdExctnDt>\n";
-        out << "<Dbtr>\n";
-        out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
-        out << "</Dbtr>\n";
-        out << "<DbtrAcct>\n";
-        out << "<Id>\n";
-        out << "<IBAN>IR" << ui->ErsalSheba->text() << "</IBAN>\n";
-        out << "</Id>\n";
-        out << "</DbtrAcct>\n";
-        out << "<DbtrAgt>\n";
-        out << "<FinInstnId>\n";
-        out << "<BIC>BMJIIRTHXXX</BIC>\n";
-        out << "</FinInstnId>\n";
-        out << "</DbtrAgt>\n";
+            QTextStream out(&file);
+            out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            out << "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n";
+            out << "<CstmrCdtTrfInitn>\n";
+            out << "<GrpHdr>\n";
+            out << "<MsgId>" << xmlfile.replace(".ccti","") << "</MsgId>\n";
+            out << "<CreDtTm>" << tarix.JalaliDate() << "T08:00:00</CreDtTm>\n";
+            out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
+            out << "<CtrlSum>" << sum << "</CtrlSum>\n";
+            out << "<InitgPty>\n";
+            out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
+            out << "</InitgPty>\n";
+            out << "</GrpHdr>\n";
+            out << "<PmtInf>\n";
+            out << "<PmtInfId>1</PmtInfId>\n";
+            out << "<PmtMtd>TRF</PmtMtd>\n";
+            out << "<NbOfTxs>" << QString::number(tedad) << "</NbOfTxs>\n";
+            out << "<CtrlSum>" << sum << "</CtrlSum>\n";
+            out << "<ReqdExctnDt>" << tarix.JalaliDate() << "</ReqdExctnDt>\n";
+            out << "<Dbtr>\n";
+            out << "<Nm>" << ui->ErsalName->text() << "</Nm>\n";
+            out << "</Dbtr>\n";
+            out << "<DbtrAcct>\n";
+            out << "<Id>\n";
+            out << "<IBAN>IR" << ui->ErsalSheba->text() << "</IBAN>\n";
+            out << "</Id>\n";
+            out << "</DbtrAcct>\n";
+            out << "<DbtrAgt>\n";
+            out << "<FinInstnId>\n";
+            out << "<BIC>BMJIIRTHXXX</BIC>\n";
+            out << "</FinInstnId>\n";
+            out << "</DbtrAgt>\n";
 
-        QSqlQuery query;
-        QString shenase;
-        query.exec("SELECT * FROM paya");
-        while (query.next()) {
-                ui->ErsalSheba->setText(query.value(1).toString());
-                out << "<CdtTrfTxInf>\n";
-                out << "<PmtId>\n";
-                shenase = (query.value(2).toString()!="") ? query.value(2).toString() : "EMPTY";
-                out << "<InstrId>" << shenase << "</InstrId>\n";
-                out << "<EndToEndId>EMPTY</EndToEndId>\n";
-                out << "</PmtId>\n";
-                out << "<Amt>\n";
-                out << "<InstdAmt Ccy=\"IRR\">" << query.value(4).toString() << "</InstdAmt>\n";
-                out << "</Amt>\n";
-                out << "<Cdtr>\n";
-                out << "<Nm>" << query.value(3).toString() << "</Nm>\n";
-                out << "</Cdtr>\n";
-                out << "<CdtrAcct>\n";
-                out << "<Id>\n";
-                out << "<IBAN>IR" << query.value(1).toString() << "</IBAN>\n";
-                out << "</Id>\n";
-                out << "</CdtrAcct>\n";
-                out << "<RmtInf>\n";
-                out << "<Ustrd>" << query.value(5).toString() << "</Ustrd>\n";
-                out << "</RmtInf>\n";
-                out << "</CdtTrfTxInf>\n";
-        }
+            QSqlQuery query;
+            QString shenase;
+            query.exec("SELECT * FROM paya");
+            while (query.next()) {
+                    ui->ErsalSheba->setText(query.value(1).toString());
+                    out << "<CdtTrfTxInf>\n";
+                    out << "<PmtId>\n";
+                    shenase = (query.value(2).toString()!="") ? query.value(2).toString() : "EMPTY";
+                    out << "<InstrId>" << shenase << "</InstrId>\n";
+                    out << "<EndToEndId>EMPTY</EndToEndId>\n";
+                    out << "</PmtId>\n";
+                    out << "<Amt>\n";
+                    out << "<InstdAmt Ccy=\"IRR\">" << query.value(4).toString() << "</InstdAmt>\n";
+                    out << "</Amt>\n";
+                    out << "<Cdtr>\n";
+                    out << "<Nm>" << query.value(3).toString() << "</Nm>\n";
+                    out << "</Cdtr>\n";
+                    out << "<CdtrAcct>\n";
+                    out << "<Id>\n";
+                    out << "<IBAN>IR" << query.value(1).toString() << "</IBAN>\n";
+                    out << "</Id>\n";
+                    out << "</CdtrAcct>\n";
+                    out << "<RmtInf>\n";
+                    out << "<Ustrd>" << query.value(5).toString() << "</Ustrd>\n";
+                    out << "</RmtInf>\n";
+                    out << "</CdtTrfTxInf>\n";
+            }
 
-        out << "</PmtInf>\n";
-        out << "</CstmrCdtTrfInitn>\n";
-        out << "</Document>\n";
+            out << "</PmtInf>\n";
+            out << "</CstmrCdtTrfInitn>\n";
+            out << "</Document>\n";
 
-        QMessageBox msgBox; msgBox.setText(xmlfile + " File Created!"); msgBox.exec();
+            QMessageBox msgBox; msgBox.setText(xmlfile + " File Created!"); msgBox.exec();
+    }
 }
 
 void MainWindow::print(QPrinter *printer)
@@ -445,13 +492,44 @@ void MainWindow::print(QPrinter *printer)
     query.exec("SELECT * FROM paya");
 
     txt="<html width=\"100%\"><head><style>body {direction: rtl;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
-         "<body><div dir=\"rtl\"><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"!</h3>"
+         "<body><div dir=\"rtl\"><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
          "<table width=\"100%\"><tr><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
     while (query.next()) {
         txt += "<tr><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
     }
     txt += "<tr><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
     txt += "</table><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
+    QTextDocument document;
+    document.setDocumentMargin(0.1);
+        document.setHtml(txt);
+        document.print(printer);
+}
+void MainWindow::printD(QPrinter *printer)
+{
+    QString xmlfile;
+    xmlfile = InsertZero(ui->ErsalSeri->text(),9);
+    xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
+
+    QString txt;
+    QSqlQuery query;
+    QDateJalali Jalali;
+    QDateTime date =QDateTime::currentDateTime();
+    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
+
+    query.exec("SELECT * FROM paya");
+
+    txt="<html width=\"100%\"><head><style>body {direction: rtl;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+         "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div>شماره: </div>"
+         "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
+            "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
+            "<br><div>اینجانب /شرکت <b>aaaaaa</b> به شماره ملی /شناسه ملی <b>aaaaaaaaa</b> </div>"
+            "<div>آدرس و تلفن: </div><br>"
+            "<div>بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> و به حروف <b>22222222222</b> مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد.</div>"
+         "<br><table width=\"100%\"><tr><td>نام فایل: "+xmlfile+"<br>طول فایل به بایت: </td><td>مشخصات فایل پیوست</td></tr></table>"
+            "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫ای‬‫ن ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فا‫ی‬‫ل‬‫ پ‬‫ی‬‫وست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئول‬‫ی‬‫ت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫ای‬‫نجانب‬‫‪/‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کل‬‫ی‬‫ه‬‫ شرا‫ی‬‫ط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچن‬‫ی‬‫ن‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ر‬‫ی‬‫ال ‬‫به‬ ‫بانک‬ ‫را‬ ‫م‬‫ی‬‫‌پذ‬‫ی‬‫رم‬‫‪.‬‬</p>"
+            "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
+            "</div></body></html>";
     QTextDocument document;
     document.setDocumentMargin(0.1);
         document.setHtml(txt);

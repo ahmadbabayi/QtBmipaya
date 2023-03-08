@@ -52,6 +52,9 @@ private slots:
     QString InsertZero(QString s, int k);
     QString InsertComma(QString s);
     void print(QPrinter *printer);
+    void printD(QPrinter *printer);
+    bool sehv();
+    bool ErsalSehv();
 
     void on_Sheba_returnPressed();
 

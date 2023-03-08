@@ -97,7 +97,7 @@
            <enum>Qt::RightToLeft</enum>
           </property>
           <property name="text">
-           <string>شرح:</string>
+           <string>     بابت: </string>
           </property>
          </widget>
         </item>
@@ -107,7 +107,7 @@
            <enum>Qt::RightToLeft</enum>
           </property>
           <property name="text">
-           <string>سری واریز: </string>
+           <string>     سری واریز: </string>
           </property>
          </widget>
         </item>
@@ -172,7 +172,7 @@
       <item row="0" column="1">
        <widget class="QLabel" name="label_8">
         <property name="text">
-         <string>شناسه واریز:</string>
+         <string>      شناسه واریز:</string>
         </property>
        </widget>
       </item>
