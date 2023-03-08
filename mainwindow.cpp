@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "qdatejalali.h"
 #include "numberformatdelegate.h"
+#include "num2str.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -328,12 +329,10 @@ void MainWindow::on_ErsalSharh_textChanged(const QString &arg1)
 
 void MainWindow::on_RestoreButton_clicked()
 {
-    if (ShebaCheck(ui->ErsalSheba->text())){
-        QMessageBox msgBox; msgBox.setText("Sheba ok."); msgBox.exec();
-    }
-    else{
-        QMessageBox msgBox; msgBox.setText("Sheba Error."); msgBox.exec();
-    }
+    Num2Str s;
+    QString h;
+    h = s.Adad2Huruf(sum);
+        QMessageBox msgBox; msgBox.setText(h); msgBox.exec();
 }
 
 
@@ -510,6 +509,10 @@ void MainWindow::printD(QPrinter *printer)
     xmlfile = InsertZero(ui->ErsalSeri->text(),9);
     xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
 
+    Num2Str s;
+    QString h;
+    h = s.Adad2Huruf(sum);
+
     QString txt;
     QSqlQuery query;
     QDateJalali Jalali;
@@ -519,15 +522,15 @@ void MainWindow::printD(QPrinter *printer)
 
     query.exec("SELECT * FROM paya");
 
-    txt="<html width=\"100%\"><head><style>body {direction: rtl;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
-         "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div>شماره: </div>"
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+         "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div dir=\"rtl\">شماره: </div>"
          "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
             "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
-            "<br><div>اینجانب /شرکت <b>aaaaaa</b> به شماره ملی /شناسه ملی <b>aaaaaaaaa</b> </div>"
+            "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
             "<div>آدرس و تلفن: </div><br>"
-            "<div>بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> و به حروف <b>22222222222</b> مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد.</div>"
+            "<div>بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+"</b> ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد. </div>"
          "<br><table width=\"100%\"><tr><td>نام فایل: "+xmlfile+"<br>طول فایل به بایت: </td><td>مشخصات فایل پیوست</td></tr></table>"
-            "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫ای‬‫ن ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فا‫ی‬‫ل‬‫ پ‬‫ی‬‫وست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئول‬‫ی‬‫ت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫ای‬‫نجانب‬‫‪/‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کل‬‫ی‬‫ه‬‫ شرا‫ی‬‫ط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچن‬‫ی‬‫ن‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ر‬‫ی‬‫ال ‬‫به‬ ‫بانک‬ ‫را‬ ‫م‬‫ی‬‫‌پذ‬‫ی‬‫رم‬‫‪.‬‬</p>"
+            "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪/‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
             "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
             "</div></body></html>";
     QTextDocument document;
