@@ -123,7 +123,7 @@ void MainWindow::on_SabtButton_clicked()
         QMessageBox msgBox; msgBox.setText("شماره شبا نادرست می‌باشد! "); msgBox.exec();
         ui->Sheba->setFocus();
     }
-    quint64 qi = ui->Mablagh->text().toLong();
+    quint64 qi = ui->Mablagh->text().replace(",","").toLong();
     if (qi>1000000000){
         sehv = false;
         QMessageBox msgBox; msgBox.setText("حد اکثر مبلغ برای حواله پایا یک میلیارد ریال می‌باشد! "); msgBox.exec();
@@ -215,16 +215,14 @@ void MainWindow::SumTedad(){
 }
 
 bool MainWindow::ShebaCheck(QString s){
-    bool result = false;
+    bool result = true;
       QString a, d, f;
       int i = 0, j = 0, sum = 0;
-      result = true;
       if ( s.length() != 24 )
       {
         result = false;
         return result;
       }
-      s = ui->ErsalSheba->text();
       a = s.mid( 0, 2 );
       s = s.mid( 2, 22 ) + "1827" + a;
       d = s.mid( 0, 13 );
