@@ -4,6 +4,15 @@
 #include "numberformatdelegate.h"
 #include "num2str.h"
 
+#include "xlsxdocument.h"
+#include "xlsxchartsheet.h"
+#include "xlsxcellrange.h"
+#include "xlsxchart.h"
+#include "xlsxrichstring.h"
+#include "xlsxworkbook.h"
+using namespace QXlsx;
+
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -341,7 +350,7 @@ void MainWindow::on_PrintdButton_clicked()
     if (ErsalSehv()){
         QPrinter printer;
         //printer.setPageOrientation(QPageLayout::Landscape);
-        printer.setPageSize(QPageSize::A4);
+        //printer.setPageSize(QPageSize::A4);
         printer.setFullPage(true);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
@@ -380,7 +389,7 @@ void MainWindow::on_PrintButton_clicked()
     if (ErsalSehv()){
         QPrinter printer;
         printer.setPageOrientation(QPageLayout::Landscape);
-        printer.setPageSize(QPageSize::A4);
+        //printer.setPageSize(QPageSize::A4);
         printer.setFullPage(true);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
@@ -537,5 +546,35 @@ void MainWindow::printD(QPrinter *printer)
     document.setDocumentMargin(0.1);
         document.setHtml(txt);
         document.print(printer);
+}
+
+
+void MainWindow::on_ExcelExport_triggered()
+{
+    QSqlQuery query;
+    query.exec("SELECT * FROM paya");
+
+    QString excelfile;
+    excelfile = InsertZero(ui->ErsalSeri->text(),9);
+    excelfile = "IR" + ui->ErsalSheba->text() + excelfile + ".xlsx";
+    // [1]  Writing excel file(*.xlsx)
+    QXlsx::Document xlsxW;
+    QVariant writeValue;
+    writeValue = QString("شماره شبا"); xlsxW.write(1, 1, writeValue);
+    writeValue = QString("شناسه واریز"); xlsxW.write(1, 2, writeValue);
+    writeValue = QString("نام و نام خانوادگی"); xlsxW.write(1, 3, writeValue);
+    writeValue = QString("مبلغ"); xlsxW.write(1, 4, writeValue);
+    writeValue = QString("شرح"); xlsxW.write(1, 5, writeValue);
+    int i=1;
+    while (query.next()) {
+        i++;
+        writeValue = query.value(1).toString(); xlsxW.write(i, 1, writeValue);
+        writeValue = query.value(2).toString(); xlsxW.write(i, 2, writeValue);
+        writeValue = query.value(3).toString(); xlsxW.write(i, 3, writeValue);
+        writeValue = query.value(4).toString(); xlsxW.write(i, 4, writeValue);
+        writeValue = query.value(5).toString(); xlsxW.write(i, 5, writeValue);
+    }
+    xlsxW.saveAs(excelfile); // save the document as 'Test.xlsx'
+    QMessageBox msgBox; msgBox.setText(excelfile + " File Created!"); msgBox.exec();
 }
 

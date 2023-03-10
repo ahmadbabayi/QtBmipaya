@@ -11,6 +11,7 @@
 #include <QPrintPreviewDialog>
 #include <QPrinter>
 #include <QPainter>
+#include <QTextDocument>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -97,6 +98,8 @@ private slots:
    void on_Mablagh_textEdited(const QString &arg1);
 
    void on_MakeButton_clicked();
+
+   void on_ExcelExport_triggered();
 
 private:
     Ui::MainWindow *ui;
