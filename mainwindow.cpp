@@ -408,10 +408,13 @@ void MainWindow::on_PrintButton_clicked()
 
 void MainWindow::on_Mablagh_textEdited(const QString &arg1)
 {
+    QString str;
+    /*
     QLocale::setDefault(QLocale::English);
     QLocale ss;
-    QString str;
-    str = ss.toString(ui->Mablagh->text().replace(",","").toLong());
+    str = ss.toString(ui->Mablagh->text().replace(",","").toLong());*/
+
+    str = InsertComma(ui->Mablagh->text().replace(",",""));
     ui->Mablagh->setText(str);
 }
 
@@ -647,4 +650,3 @@ void MainWindow::on_ExitAction_triggered()
 {
     QApplication::exit();
 }
-

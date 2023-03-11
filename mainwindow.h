@@ -109,6 +109,7 @@ private slots:
 
    void on_ExitAction_triggered();
 
+
 private:
     Ui::MainWindow *ui;
 };
