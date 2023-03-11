@@ -578,3 +578,49 @@ void MainWindow::on_ExcelExport_triggered()
     QMessageBox msgBox; msgBox.setText(excelfile + " File Created!"); msgBox.exec();
 }
 
+
+void MainWindow::on_Excelmport_triggered()
+{
+    QString fileName;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open Excel"), "", tr("Excel Files (*.xlsx)"));
+    QXlsx::Document xlsxW;
+    Document xlsxR(fileName);
+    bool emptyCell = true, cellError; int i = 2;
+    if (xlsxR.load()) // load excel file
+        {
+        QSqlQuery query;
+        query.exec("DELETE FROM paya");
+        query.exec("DELETE FROM sqlite_sequence");
+
+        QString row[5];
+        QVariant var;
+        Cell* cell;
+
+        while (emptyCell) {
+            cellError = false;
+            cell = xlsxR.cellAt(i, 1); // get cell pointer.
+            if ( cell != NULL )
+            {
+                var = cell->readValue();  row[0] = var.toString(); if (!ShebaCheck(row[0])) { cellError = true; }
+                cell = xlsxR.cellAt(i, 2);  var = cell->readValue();  row[1] = var.toString();
+                cell = xlsxR.cellAt(i, 3);  var = cell->readValue();  row[2] = var.toString();
+                cell = xlsxR.cellAt(i, 4);  var = cell->readValue();  row[3] = var.toString();
+                cell = xlsxR.cellAt(i, 5);  var = cell->readValue();  row[4] = var.toString();
+                if (!cellError){
+                    query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
+                }
+            }
+            else { emptyCell = false;}
+            i++;
+        }
+        ui->Sheba->setFocus();
+        ui->Sheba->setText("");
+        ui->Shenaseh->setText("");
+        ui->Name->setText("");
+        ui->Mablagh->setText("");
+        TableReload();
+        SumTedad();
+        ui->tableView->scrollToBottom();
+        }
+}
+

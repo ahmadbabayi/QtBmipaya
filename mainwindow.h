@@ -101,6 +101,8 @@ private slots:
 
    void on_ExcelExport_triggered();
 
+   void on_Excelmport_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
