@@ -5,6 +5,7 @@
 #include "num2str.h"
 
 #include "helpdialog.h"
+#include "aboutdialog.h"
 
 #include "xlsxdocument.h"
 #include "xlsxchartsheet.h"
@@ -628,15 +629,22 @@ void MainWindow::on_Excelmport_triggered()
 }
 
 
-void MainWindow::on_action_7_triggered()
-{
-    QApplication::exit();
-}
-
-
 void MainWindow::on_HelpAction_triggered()
 {
     HelpDialog *helpdialog = new HelpDialog();
     helpdialog->show();
+}
+
+
+void MainWindow::on_AboutAction_triggered()
+{
+    AboutDialog * aboutdialog = new AboutDialog();
+    aboutdialog->show();
+}
+
+
+void MainWindow::on_ExitAction_triggered()
+{
+    QApplication::exit();
 }
 

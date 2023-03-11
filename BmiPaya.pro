@@ -9,6 +9,7 @@ CONFIG += c++11
 include(./QXlsx/QXlsx.pri)
 
 SOURCES += \
+    aboutdialog.cpp \
     helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     qdatejalali.cpp
 
 HEADERS += \
+    aboutdialog.h \
     helpdialog.h \
     mainwindow.h \
     num2str.h \
@@ -24,6 +26,7 @@ HEADERS += \
     qdatejalali.h
 
 FORMS += \
+    aboutdialog.ui \
     helpdialog.ui \
     mainwindow.ui
 
