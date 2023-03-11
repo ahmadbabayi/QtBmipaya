@@ -9,6 +9,7 @@ CONFIG += c++11
 include(./QXlsx/QXlsx.pri)
 
 SOURCES += \
+    helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     num2str.cpp \
@@ -16,12 +17,14 @@ SOURCES += \
     qdatejalali.cpp
 
 HEADERS += \
+    helpdialog.h \
     mainwindow.h \
     num2str.h \
     numberformatdelegate.h \
     qdatejalali.h
 
 FORMS += \
+    helpdialog.ui \
     mainwindow.ui
 
 # Default rules for deployment.

@@ -103,6 +103,10 @@ private slots:
 
    void on_Excelmport_triggered();
 
+   void on_action_7_triggered();
+
+   void on_HelpAction_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

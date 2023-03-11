@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>HelpDialog</class>
+ <widget class="QDialog" name="HelpDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>879</width>
+    <height>643</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>راهنمای برنامه</string>
+  </property>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>190</x>
+     <y>550</y>
+     <width>341</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+  </widget>
+  <widget class="QTextBrowser" name="textBrowser">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>841</width>
+     <height>481</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::RightToLeft</enum>
+   </property>
+   <property name="html">
+    <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Ubuntu'; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;دستــور پرداختهای گروهی پایا عمدتاً برای پرداخت های تجاری کاربران شرکتی و سازمانی نظیــر پرداخت حقوق و مستمری، پرداخت سود سهام و پرداخت های انتقالی با تعداد زیاد کاربرد دارد&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;در این طرح سازمانهایی که حساب اصلی آنها در بانک ملی ایران می باشد می توانند بدون الزام مخاطبان تجاری خود به افتتاح حساب در یک بانک ، از طریق تکمیل و ارسال فرمهای مربوطه که در این بخش موجود می باشد به حساب افراد در هر بانک دیگر وجه مربوطه را پرداخت نمایند &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;در واقع در این خدمت مشتری دستور پرداختی بدون محدودیت تعداد و مقصد حساب در قالب فایل &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;Xml &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;توسط نرم‌افزار ایجاد فایل پایا تولید و آن را به متصدی بانک تحویل داده و پس از تکمیل فرم درخواست خدمت، بانک وجوه مربوطه را بر اساس زمان اعلامی مشتری در فرم مربوطه به حساب های خواسته شده واریز می نماید&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;داشتن حساب در بانک ملی و ارائه مدارک شناسایی در هنگام تکمیل فرم درخواست خدمت برای مشتری تنها الزامات استفاده از این خدمت بوده و در حال حاضر بانک هیچ کارمزدی در قبال این خدمت اخذ نمی نماید&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;برنامه ایجاد فایل گروهی پایا جهت آسان سازی ایجاد فایل پایا توسط مشتریان بانک ایجاد شده و طبق دستورالعمل تهیه فایل با فرمت &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;XML &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;موجود در سایت بانک ملی &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;(https://bmi.ir/Fa/BMIServicesShow.aspx?sid=197) &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;عمل نموده و فایل را ایجاد می‌نماید&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;برای چاپ بهتر فونت &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;B Nazanin &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;باید در سیستم نصب شده باشد&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;. &lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;a name=&quot;_GoBack&quot;&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;-&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;شماره سری از یک شروع شده و در هر بار ایجاد فایل یک واحد افزایش می‌یابد&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;br /&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;این برنامه بصورت علاقه شخصی جهت راحتی در ایجاد فایل پایای گروهی و ویرایش آن توسط این‌جانب &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;« &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;احمد پوربابائی گرده&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;» &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;نوشته شده و در دسترس مشتریان عزیز بانک قرار گرفته شده است&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;right&quot; dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;- &lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma'; font-size:12pt;&quot;&gt;در صورت مشاهده هرگونه نقص و ایراد و یا هرگونه پیشنهاد و انتقاد می‌توانید با استفاده از ایمیل، تلگرام و بله به این‌جانب پیغام دهید&lt;/span&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
+&lt;p dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;Email: &lt;/span&gt;&lt;a href=&quot;mailto:ahmadbabayi@iran.ir&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt; text-decoration: underline; color:#000080;&quot;&gt;ahmadbabayi@iran.ir&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;Telegram: @ahmadbabayi&lt;/span&gt;&lt;/p&gt;
+&lt;p dir='rtl' style=&quot; margin-top:12px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:108%; background-color:transparent;&quot;&gt;&lt;span style=&quot; font-family:'Tahoma','serif'; font-size:12pt;&quot;&gt;Bale: @ahmadbabayi&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>HelpDialog</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

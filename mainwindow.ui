@@ -390,24 +390,24 @@
      <x>0</x>
      <y>0</y>
      <width>971</width>
-     <height>23</height>
+     <height>22</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
     <property name="title">
-     <string>فایل</string>
+     <string>File</string>
     </property>
     <addaction name="Excelmport"/>
     <addaction name="ExcelExport"/>
     <addaction name="separator"/>
-    <addaction name="action_7"/>
+    <addaction name="ExitAction"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
-     <string>ابزارها</string>
+     <string>Help</string>
     </property>
-    <addaction name="action_8"/>
-    <addaction name="action_9"/>
+    <addaction name="HelpAction"/>
+    <addaction name="AboutAction"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_2"/>
@@ -423,19 +423,19 @@
     <string>ذخیره لیست در فایل اکسل</string>
    </property>
   </action>
-  <action name="action_7">
+  <action name="ExitAction">
    <property name="text">
     <string>خروج از برنامه</string>
    </property>
   </action>
-  <action name="action_8">
+  <action name="HelpAction">
    <property name="text">
-    <string>چاپ حواله ساتنا</string>
+    <string>راهنمای برنامه</string>
    </property>
   </action>
-  <action name="action_9">
+  <action name="AboutAction">
    <property name="text">
-    <string>چاپ چک</string>
+    <string>درباره برنامه</string>
    </property>
   </action>
  </widget>

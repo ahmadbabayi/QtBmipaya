@@ -4,6 +4,8 @@
 #include "numberformatdelegate.h"
 #include "num2str.h"
 
+#include "helpdialog.h"
+
 #include "xlsxdocument.h"
 #include "xlsxchartsheet.h"
 #include "xlsxcellrange.h"
@@ -532,16 +534,17 @@ void MainWindow::printD(QPrinter *printer)
     query.exec("SELECT * FROM paya");
 
     txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
-         "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div dir=\"rtl\">شماره: </div>"
-         "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
-            "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
-            "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
-            "<div>آدرس و تلفن: </div><br>"
-            "<div>بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+"</b> ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد. </div>"
-         "<br><table width=\"100%\"><tr><td>نام فایل: "+xmlfile+"<br>طول فایل به بایت: </td><td>مشخصات فایل پیوست</td></tr></table>"
-            "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪/‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
-            "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
-            "</div></body></html>";
+                 "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div dir=\"rtl\">شماره: </div>"
+                 "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
+                    "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
+                    "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
+                    "<div>آدرس و تلفن: </div><br>"
+                    "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
+        "</b> .ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد </div>"
+                 "<br><table width=\"100%\"><tr><td>نام فایل: "+xmlfile+"<br>طول فایل به بایت: </td><td>مشخصات فایل پیوست</td></tr></table>"
+                    "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪ /‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
+                    "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
+                    "</div></body></html>";
     QTextDocument document;
     document.setDocumentMargin(0.1);
         document.setHtml(txt);
@@ -601,11 +604,11 @@ void MainWindow::on_Excelmport_triggered()
             cell = xlsxR.cellAt(i, 1); // get cell pointer.
             if ( cell != NULL )
             {
-                var = cell->readValue();  row[0] = var.toString(); if (!ShebaCheck(row[0])) { cellError = true; }
-                cell = xlsxR.cellAt(i, 2);  var = cell->readValue();  row[1] = var.toString();
-                cell = xlsxR.cellAt(i, 3);  var = cell->readValue();  row[2] = var.toString();
-                cell = xlsxR.cellAt(i, 4);  var = cell->readValue();  row[3] = var.toString();
-                cell = xlsxR.cellAt(i, 5);  var = cell->readValue();  row[4] = var.toString();
+                var = cell->readValue();  row[0] = var.toString().replace(" ",""); if (!ShebaCheck(row[0])) { cellError = true; }
+                cell = xlsxR.cellAt(i, 2);  var = cell->readValue();  row[1] = var.toString().replace(" ","");
+                cell = xlsxR.cellAt(i, 3);  var = cell->readValue();  row[2] = var.toString().trimmed(); if (row[2] =="") { cellError = true; }
+                cell = xlsxR.cellAt(i, 4);  var = cell->readValue();  row[3] = var.toString().trimmed(); if (row[3] =="") { cellError = true; }
+                cell = xlsxR.cellAt(i, 5);  var = cell->readValue();  row[4] = var.toString().trimmed(); if (row[4] =="") { cellError = true; }
                 if (!cellError){
                     query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
                 }
@@ -622,5 +625,18 @@ void MainWindow::on_Excelmport_triggered()
         SumTedad();
         ui->tableView->scrollToBottom();
         }
+}
+
+
+void MainWindow::on_action_7_triggered()
+{
+    QApplication::exit();
+}
+
+
+void MainWindow::on_HelpAction_triggered()
+{
+    HelpDialog *helpdialog = new HelpDialog();
+    helpdialog->show();
 }
 
