@@ -341,10 +341,51 @@ void MainWindow::on_ErsalSharh_textChanged(const QString &arg1)
 
 void MainWindow::on_RestoreButton_clicked()
 {
-    Num2Str s;
-    QString h;
-    h = s.Adad2Huruf(sum);
-        QMessageBox msgBox; msgBox.setText(h); msgBox.exec();
+    QString fileName;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open CCTI File"), "", tr("CCTI Files (*.ccti)"));
+    QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+
+    QTextStream in(&file);
+    QString someXML="", row[5], inText;
+    int i=0;
+    bool ok2Insert = false;
+    QSqlQuery query;
+    query.exec("DELETE FROM paya");
+    query.exec("DELETE FROM sqlite_sequence");
+
+    while (!in.atEnd()){
+        someXML = in.readLine().trimmed();
+
+        if (i>30){
+            if (someXML.contains("<InstrId>", Qt::CaseInsensitive)){
+                row[1] = someXML.remove(QRegularExpression("<[^>]*>")).replace("EMPTY","");
+            }
+            if (someXML.contains("<InstdAmt", Qt::CaseInsensitive)){
+                row[3] = someXML.remove(QRegularExpression("<[^>]*>"));
+            }
+            if (someXML.contains("<Nm>", Qt::CaseInsensitive)){
+                row[2] = someXML.remove(QRegularExpression("<[^>]*>"));
+            }
+            if (someXML.contains("<IBAN>", Qt::CaseInsensitive)){
+                row[0] = someXML.remove(QRegularExpression("<[^>]*>")).replace("IR","");
+            }
+            if (someXML.contains("<Ustrd", Qt::CaseInsensitive)){
+                row[4] = someXML.remove(QRegularExpression("<[^>]*>"));
+                ok2Insert = true;
+            }
+            if (ok2Insert){
+                query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
+            }
+            ok2Insert = false;
+        }
+        i++;
+    }
+    file.close();
+    TableReload();
+    SumTedad();
+    ui->tableView->scrollToBottom();
 }
 
 
@@ -503,10 +544,15 @@ void MainWindow::print(QPrinter *printer)
 {
     QString txt;
     QSqlQuery query;
+    QDateJalali Jalali;
+    QDateTime date =QDateTime::currentDateTime();
+    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
+
     query.exec("SELECT * FROM paya");
 
-    txt="<html width=\"100%\"><head><style>body {direction: rtl;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
-         "<body><div dir=\"rtl\"><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; } table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+         "<body><div dir=\"rtl\"><div align=\"left\"> :تاریخ "+JalailDate+"</div><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
          "<table width=\"100%\"><tr><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
     while (query.next()) {
         txt += "<tr><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
@@ -530,22 +576,28 @@ void MainWindow::printD(QPrinter *printer)
 
     QString txt;
     QSqlQuery query;
+
     QDateJalali Jalali;
     QDateTime date =QDateTime::currentDateTime();
     QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
     QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 
+    xmlfile = InsertZero(ui->ErsalSeri->text(),9);
+    xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
+    QFile file(xmlfile);
+    QString size = QString::number(file.size());
+
     query.exec("SELECT * FROM paya");
 
     txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
-                 "<body><div dir=\"rtl\"><div>تاریخ: "+JalailDate+"</div><div dir=\"rtl\">شماره: </div>"
+                 "<body><div dir=\"rtl\"><div> :تاریخ "+JalailDate+"</div><div dir=\"rtl\"> :شماره</div>"
                  "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
                     "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
                     "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
                     "<div>آدرس و تلفن: </div><br>"
                     "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
         "</b> .ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد </div>"
-                 "<br><table width=\"100%\"><tr><td>نام فایل: "+xmlfile+"<br>طول فایل به بایت: </td><td>مشخصات فایل پیوست</td></tr></table>"
+                 "<br><td> :نام فایل"+xmlfile+"<br> طول فایل به بایت --"+size+" --</td><td>مشخصات فایل پیوست</td></tr></table>"
                     "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪ /‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
                     "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
                     "</div></body></html>";
