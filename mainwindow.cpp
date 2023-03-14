@@ -348,7 +348,8 @@ void MainWindow::on_RestoreButton_clicked()
             return;
 
     QTextStream in(&file);
-    QString someXML="", row[5], inText;
+    in.setCodec("UTF-8");
+    QString someXML="", row[5];
     int i=0;
     bool ok2Insert = false;
     QSqlQuery query;
@@ -392,17 +393,18 @@ void MainWindow::on_RestoreButton_clicked()
 void MainWindow::on_PrintdButton_clicked()
 {
     if (ErsalSehv()){
-        QPrinter printer;
+        QPrinter *printer = new QPrinter();
         //printer.setPageOrientation(QPageLayout::Landscape);
         //printer.setPageSize(QPageSize::A4);
-        printer.setFullPage(true);
+        printer->setFullPage(true);
+        printer->setPageSize(QPrinter::A4);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
-        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer);
+        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printD(QPrinter*)));
         printPreview->setWindowTitle("Preview Dialog");
-        Qt::WindowFlags flags(Qt::WindowTitleHint);
-        printPreview->setWindowFlags(flags);
+        //Qt::WindowFlags flags(Qt::WindowTitleHint);
+        //printPreview->setWindowFlags(flags);
         //printPreview->setContentsMargins(10,10,10,10);
         printPreview->exec();
     }
@@ -431,17 +433,18 @@ void MainWindow::on_EditButton_clicked()
 void MainWindow::on_PrintButton_clicked()
 {
     if (ErsalSehv()){
-        QPrinter printer;
-        printer.setPageOrientation(QPageLayout::Landscape);
+        QPrinter *printer = new QPrinter();
+        //printer.setPageOrientation(QPageLayout::Landscape);
         //printer.setPageSize(QPageSize::A4);
-        printer.setFullPage(true);
+        printer->setFullPage(true);
+        printer->setPageSize(QPrinter::A4);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
-        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(&printer);
+        QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
         printPreview->setWindowTitle("Preview Dialog");
-        Qt::WindowFlags flags(Qt::WindowTitleHint);
-        printPreview->setWindowFlags(flags);
+        //Qt::WindowFlags flags(Qt::WindowTitleHint);
+        //printPreview->setWindowFlags(flags);
         //printPreview->setContentsMargins(10,10,10,10);
         printPreview->exec();
     }
@@ -472,6 +475,7 @@ void MainWindow::on_MakeButton_clicked()
                 return;
 
             QTextStream out(&file);
+            out.setCodec("UTF-8");
             out << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
             out << "<Document xmlns=\"urn:iso:std:iso:20022:tech:xsd:pain.001.001.03\">\n";
             out << "<CstmrCdtTrfInitn>\n";
@@ -508,7 +512,6 @@ void MainWindow::on_MakeButton_clicked()
             QString shenase;
             query.exec("SELECT * FROM paya");
             while (query.next()) {
-                    ui->ErsalSheba->setText(query.value(1).toString());
                     out << "<CdtTrfTxInf>\n";
                     out << "<PmtId>\n";
                     shenase = (query.value(2).toString()!="") ? query.value(2).toString() : "EMPTY";
