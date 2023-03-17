@@ -24,8 +24,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Shamsi Calender
     QDateJalali Jalali;
-    QDateTime date =QDateTime::currentDateTime();
-    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
+    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
     QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
     ui->TarixShamsi->setText("تاریخ امروز: "+JalailDate);
 
@@ -35,12 +35,12 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Shenaseh->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
 
     QDir *datadir = new QDir();
-    if (!datadir->exists("data")){
-        datadir->mkdir("data");
+    if (!datadir->exists("BmiPaya_data")){
+        datadir->mkdir("BmiPaya_data");
             }
-    if (!QFile::exists("data/bmipaya.db")){
+    if (!QFile::exists("BmiPaya_data/bmipaya.db")){
         QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("data/bmipaya.db");
+        db.setDatabaseName("BmiPaya_data/bmipaya.db");
         if (db.open()){
             QSqlQuery query;
             query.exec("create table paya (id INTEGER PRIMARY KEY AUTOINCREMENT, sheba TEXT, shenaseh TEXT, name TEXT, mablagh TEXT, sharh TEXT)");
@@ -129,6 +129,7 @@ void MainWindow::on_SabtButton_clicked()
     ui->Shenaseh->setText("");
     ui->Name->setText("");
     ui->Mablagh->setText("");
+    ui->SearchEdit->setText("");
     TableReload();
     SumTedad();
     ui->tableView->scrollToBottom();
@@ -153,14 +154,22 @@ void MainWindow::on_RemoveButton_clicked()
 }
 void MainWindow::TableReload(){
    QSqlQueryModel *model = new QSqlQueryModel;
-   model->setQuery("SELECT sheba, shenaseh, name, mablagh, sharh FROM paya");
-   model->setHeaderData(0, Qt::Horizontal, tr("شماره شبا"));
-   model->setHeaderData(1, Qt::Horizontal, tr("شناسه واریز"));
-   model->setHeaderData(2, Qt::Horizontal, tr("نام و نام خانوادگی"));
-   model->setHeaderData(3, Qt::Horizontal, tr("مبلغ"));
-   model->setHeaderData(4, Qt::Horizontal, tr("شرح"));
+   if (ui->SearchEdit->text()==""){
+       model->setQuery("SELECT * FROM paya");
+   }
+   else  {
+       model->setQuery("SELECT * FROM paya WHERE sheba LIKE '%"+ui->SearchEdit->text()+"%' OR name LIKE '%"+ui->SearchEdit->text()+"%'");
+   }
+
+   model->setHeaderData(0, Qt::Horizontal, tr("ردیف"));
+   model->setHeaderData(1, Qt::Horizontal, tr("شماره شبا"));
+   model->setHeaderData(2, Qt::Horizontal, tr("شناسه واریز"));
+   model->setHeaderData(3, Qt::Horizontal, tr("نام و نام خانوادگی"));
+   model->setHeaderData(4, Qt::Horizontal, tr("مبلغ"));
+   model->setHeaderData(5, Qt::Horizontal, tr("شرح"));
+   ui->tableView->verticalHeader()->setVisible(false);
    ui->tableView->setModel(model);
-   ui->tableView->setItemDelegateForColumn(3, new NumberFormatDelegate(this));
+   ui->tableView->setItemDelegateForColumn(4, new NumberFormatDelegate(this));
    ui->tableView->resizeColumnsToContents();
    ui->tableView->resizeRowsToContents();
 }
@@ -339,57 +348,6 @@ void MainWindow::on_ErsalSharh_textChanged(const QString &arg1)
 }
 
 
-void MainWindow::on_RestoreButton_clicked()
-{
-    QString fileName;
-    fileName = QFileDialog::getOpenFileName(this, tr("Open CCTI File"), "", tr("CCTI Files (*.ccti)"));
-    QFile file(fileName);
-        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
-            return;
-
-    QTextStream in(&file);
-    in.setCodec("UTF-8");
-    QString someXML="", row[5];
-    int i=0;
-    bool ok2Insert = false;
-    QSqlQuery query;
-    query.exec("DELETE FROM paya");
-    query.exec("DELETE FROM sqlite_sequence");
-
-    while (!in.atEnd()){
-        someXML = in.readLine().trimmed();
-
-        if (i>30){
-            if (someXML.contains("<InstrId>", Qt::CaseInsensitive)){
-                row[1] = someXML.remove(QRegularExpression("<[^>]*>")).replace("EMPTY","");
-            }
-            if (someXML.contains("<InstdAmt", Qt::CaseInsensitive)){
-                row[3] = someXML.remove(QRegularExpression("<[^>]*>"));
-            }
-            if (someXML.contains("<Nm>", Qt::CaseInsensitive)){
-                row[2] = someXML.remove(QRegularExpression("<[^>]*>"));
-            }
-            if (someXML.contains("<IBAN>", Qt::CaseInsensitive)){
-                row[0] = someXML.remove(QRegularExpression("<[^>]*>")).replace("IR","");
-            }
-            if (someXML.contains("<Ustrd", Qt::CaseInsensitive)){
-                row[4] = someXML.remove(QRegularExpression("<[^>]*>"));
-                ok2Insert = true;
-            }
-            if (ok2Insert){
-                query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
-            }
-            ok2Insert = false;
-        }
-        i++;
-    }
-    file.close();
-    TableReload();
-    SumTedad();
-    ui->tableView->scrollToBottom();
-}
-
-
 void MainWindow::on_PrintdButton_clicked()
 {
     if (ErsalSehv()){
@@ -548,19 +506,19 @@ void MainWindow::print(QPrinter *printer)
     QString txt;
     QSqlQuery query;
     QDateJalali Jalali;
-    QDateTime date =QDateTime::currentDateTime();
-    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
+    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
     QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 
     query.exec("SELECT * FROM paya");
 
-    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; } table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; }</style></head>"
          "<body><div dir=\"rtl\"><div align=\"left\"> :تاریخ "+JalailDate+"</div><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
-         "<table width=\"100%\"><tr><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
+         "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
     while (query.next()) {
-        txt += "<tr><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
+        txt += "<tr bgcolor=\"#ffffff\"><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
     }
-    txt += "<tr><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
+    txt += "<tr bgcolor=\"#ffffff\"><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
     txt += "</table><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
     QTextDocument document;
     document.setDocumentMargin(0.1);
@@ -581,8 +539,8 @@ void MainWindow::printD(QPrinter *printer)
     QSqlQuery query;
 
     QDateJalali Jalali;
-    QDateTime date =QDateTime::currentDateTime();
-    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
+    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
     QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 
     xmlfile = InsertZero(ui->ErsalSeri->text(),9);
@@ -592,15 +550,15 @@ void MainWindow::printD(QPrinter *printer)
 
     query.exec("SELECT * FROM paya");
 
-    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;} table, td {border: 1px solid black; padding: 5px; border-collapse: collapse;}</style></head>"
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;}</style></head>"
                  "<body><div dir=\"rtl\"><div> :تاریخ "+JalailDate+"</div><div dir=\"rtl\"> :شماره</div>"
                  "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
                     "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
                     "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
-                    "<div>آدرس و تلفن: </div><br>"
+                    "<div>آدرس و تلفن </div><br>"
                     "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
         "</b> .ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد </div>"
-                 "<br><td> :نام فایل"+xmlfile+"<br> طول فایل به بایت --"+size+" --</td><td>مشخصات فایل پیوست</td></tr></table>"
+                 "<br><table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td> :نام فایل"+xmlfile+"<br> طول فایل به بایت --"+size+" --</td><td>مشخصات فایل پیوست</td></tr></table>"
                     "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪ /‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
                     "<br><br><br><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table>"
                     "</div></body></html>";
@@ -630,7 +588,7 @@ void MainWindow::on_ExcelExport_triggered()
     int i=1;
     while (query.next()) {
         i++;
-        writeValue = query.value(1).toString(); xlsxW.write(i, 1, writeValue);
+        writeValue = "IR"+query.value(1).toString(); xlsxW.write(i, 1, writeValue);
         writeValue = query.value(2).toString(); xlsxW.write(i, 2, writeValue);
         writeValue = query.value(3).toString(); xlsxW.write(i, 3, writeValue);
         writeValue = query.value(4).toString(); xlsxW.write(i, 4, writeValue);
@@ -663,7 +621,7 @@ void MainWindow::on_Excelmport_triggered()
             cell = xlsxR.cellAt(i, 1); // get cell pointer.
             if ( cell != NULL )
             {
-                var = cell->readValue();  row[0] = var.toString().replace(" ",""); if (!ShebaCheck(row[0])) { cellError = true; }
+                var = cell->readValue();  row[0] = var.toString().replace(" ","").replace("IR",""); if (!ShebaCheck(row[0])) { cellError = true; }
                 cell = xlsxR.cellAt(i, 2);  var = cell->readValue();  row[1] = var.toString().replace(" ","");
                 cell = xlsxR.cellAt(i, 3);  var = cell->readValue();  row[2] = var.toString().trimmed(); if (row[2] =="") { cellError = true; }
                 cell = xlsxR.cellAt(i, 4);  var = cell->readValue();  row[3] = var.toString().trimmed(); if (row[3] =="") { cellError = true; }
@@ -705,3 +663,60 @@ void MainWindow::on_ExitAction_triggered()
 {
     QApplication::exit();
 }
+
+void MainWindow::on_RestoerAction_triggered()
+{
+    QString fileName;
+    fileName = QFileDialog::getOpenFileName(this, tr("Open CCTI File"), "", tr("CCTI Files (*.ccti)"));
+    QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+            return;
+
+    QTextStream in(&file);
+    in.setCodec("UTF-8");
+    QString someXML="", row[5];
+    int i=0;
+    bool ok2Insert = false;
+    QSqlQuery query;
+    query.exec("DELETE FROM paya");
+    query.exec("DELETE FROM sqlite_sequence");
+
+    while (!in.atEnd()){
+        someXML = in.readLine().trimmed();
+
+        if (i>30){
+            if (someXML.contains("<InstrId>", Qt::CaseInsensitive)){
+                row[1] = someXML.remove(QRegularExpression("<[^>]*>")).replace("EMPTY","");
+            }
+            if (someXML.contains("<InstdAmt", Qt::CaseInsensitive)){
+                row[3] = someXML.remove(QRegularExpression("<[^>]*>"));
+            }
+            if (someXML.contains("<Nm>", Qt::CaseInsensitive)){
+                row[2] = someXML.remove(QRegularExpression("<[^>]*>"));
+            }
+            if (someXML.contains("<IBAN>", Qt::CaseInsensitive)){
+                row[0] = someXML.remove(QRegularExpression("<[^>]*>")).replace("IR","");
+            }
+            if (someXML.contains("<Ustrd", Qt::CaseInsensitive)){
+                row[4] = someXML.remove(QRegularExpression("<[^>]*>"));
+                ok2Insert = true;
+            }
+            if (ok2Insert){
+                query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
+            }
+            ok2Insert = false;
+        }
+        i++;
+    }
+    file.close();
+    TableReload();
+    SumTedad();
+    ui->tableView->scrollToBottom();
+}
+
+
+void MainWindow::on_SearchEdit_textChanged(const QString &arg1)
+{
+    TableReload();
+}
+

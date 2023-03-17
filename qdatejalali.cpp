@@ -15,8 +15,8 @@ QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 QString QDateJalali::JalaliDate(){
     //Shamsi Calender
     QDateJalali Jalali;
-    QDateTime date =QDateTime::currentDateTime();
-    QStringList shamsi=  Jalali.ToShamsi(  date.toString("yyyy"), date.toString("MM"),date.toString("dd"));
+    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
+    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
     QString JalailDate =shamsi.at(0)+"-"+shamsi.at(1)+"-"+shamsi.at(2);
     return JalailDate;
 }

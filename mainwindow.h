@@ -35,7 +35,7 @@ public:
     }
     bool dbopen(){
         mydb = QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName("data/bmipaya.db");
+        mydb.setDatabaseName("BmiPaya_data/bmipaya.db");
         if (!mydb.open()){
             qDebug() << ("Failed to open database");
             return false;
@@ -87,8 +87,6 @@ private slots:
 
     void on_ErsalSharh_textChanged(const QString &arg1);
 
-    void on_RestoreButton_clicked();
-
     void on_PrintdButton_clicked();
 
     void on_EditButton_clicked();
@@ -109,6 +107,9 @@ private slots:
 
    void on_ExitAction_triggered();
 
+   void on_RestoerAction_triggered();
+
+   void on_SearchEdit_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
