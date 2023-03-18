@@ -264,7 +264,7 @@
          <enum>Qt::RightToLeft</enum>
         </property>
         <property name="text">
-         <string>نسخه: 14011225</string>
+         <string>نسخه: 14011227</string>
         </property>
        </widget>
       </item>
@@ -443,7 +443,7 @@
   <widget class="QStatusBar" name="statusbar"/>
   <action name="Excelmport">
    <property name="text">
-    <string>ورود اطلاعات از اکس</string>
+    <string>ورود اطلاعات از اکسل</string>
    </property>
   </action>
   <action name="ExcelExport">
@@ -468,7 +468,7 @@
   </action>
   <action name="RestoerAction">
    <property name="text">
-    <string>بازیابی لیست از فایل</string>
+    <string>بازیابی لیست از فایل ایجاد شده</string>
    </property>
   </action>
  </widget>

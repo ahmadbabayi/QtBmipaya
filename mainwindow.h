@@ -10,6 +10,7 @@
 #include <QFileDialog>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
+#include <QPrintDialog>
 #include <QPainter>
 #include <QTextDocument>
 

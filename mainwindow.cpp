@@ -403,7 +403,7 @@ void MainWindow::on_PrintButton_clicked()
         printPreview->setWindowTitle("Preview Dialog");
         //Qt::WindowFlags flags(Qt::WindowTitleHint);
         //printPreview->setWindowFlags(flags);
-        //printPreview->setContentsMargins(10,10,10,10);
+        //printPreview->setContentsMargins(1,1,1,1);
         printPreview->exec();
     }
 }
@@ -521,7 +521,7 @@ void MainWindow::print(QPrinter *printer)
     txt += "<tr bgcolor=\"#ffffff\"><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
     txt += "</table><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
     QTextDocument document;
-    document.setDocumentMargin(0.1);
+    //document.setDocumentMargin(0.1);
         document.setHtml(txt);
         document.print(printer);
 }
@@ -622,12 +622,15 @@ void MainWindow::on_Excelmport_triggered()
             if ( cell != NULL )
             {
                 var = cell->readValue();  row[0] = var.toString().replace(" ","").replace("IR",""); if (!ShebaCheck(row[0])) { cellError = true; }
-                cell = xlsxR.cellAt(i, 2);  var = cell->readValue();  row[1] = var.toString().replace(" ","");
-                cell = xlsxR.cellAt(i, 3);  var = cell->readValue();  row[2] = var.toString().trimmed(); if (row[2] =="") { cellError = true; }
-                cell = xlsxR.cellAt(i, 4);  var = cell->readValue();  row[3] = var.toString().trimmed(); if (row[3] =="") { cellError = true; }
-                cell = xlsxR.cellAt(i, 5);  var = cell->readValue();  row[4] = var.toString().trimmed(); if (row[4] =="") { cellError = true; }
+                cell = xlsxR.cellAt(i, 2); if ( cell != NULL ) { var = cell->readValue();  row[1] = var.toString().replace(" ","");}
+                cell = xlsxR.cellAt(i, 3); if ( cell != NULL ) { var = cell->readValue();  row[2] = var.toString().trimmed(); } else { cellError = true; }
+                cell = xlsxR.cellAt(i, 4); if ( cell != NULL ) { var = cell->readValue();  row[3] = var.toString().trimmed(); } else { cellError = true; }
+                cell = xlsxR.cellAt(i, 5); if ( cell != NULL ) { var = cell->readValue();  row[4] = var.toString().trimmed(); } else { cellError = true; }
                 if (!cellError){
                     query.exec("INSERT INTO paya (sheba,shenaseh,name,mablagh,sharh) VALUES ('"+row[0]+"','"+row[1]+"','"+row[2]+"','"+row[3]+"','"+row[4]+"')");
+                }
+                else {
+                    QMessageBox msgBox; msgBox.setText("خطا در سطر شماره " + QString::number(i)); msgBox.exec();
                 }
             }
             else { emptyCell = false;}

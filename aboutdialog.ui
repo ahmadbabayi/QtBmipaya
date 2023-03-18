@@ -121,7 +121,7 @@
     </font>
    </property>
    <property name="text">
-    <string>Telegram: ahmadbabayi</string>
+    <string>Telegram: @ahmadbabayi</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
