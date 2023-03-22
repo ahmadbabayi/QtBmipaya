@@ -12,7 +12,7 @@ class ChequePrintDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ChequePrintDialog(QWidget *parent = nullptr);
+    explicit ChequePrintDialog(QString ersalname, QString ersalbabat, QWidget *parent = nullptr);
     ~ChequePrintDialog();
 
 private slots:
@@ -27,6 +27,10 @@ private slots:
     void on_KodemelliEdit_returnPressed();
 
     void on_ExitButton_clicked();
+
+    void on_MablaghEdit_textEdited(const QString &arg1);
+
+    void on_BabetEdit_returnPressed();
 
 private:
     Ui::ChequePrintDialog *ui;

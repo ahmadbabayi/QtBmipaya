@@ -718,7 +718,7 @@ void MainWindow::on_SearchEdit_textChanged(const QString &arg1)
 
 void MainWindow::on_PrintCheque_triggered()
 {
-    ChequePrintDialog *chequeprint = new ChequePrintDialog();
+    ChequePrintDialog *chequeprint = new ChequePrintDialog(ui->ErsalName->text(),ui->ErsalSharh->text());
     chequeprint->show();
 }
 

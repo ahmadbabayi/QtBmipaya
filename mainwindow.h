@@ -28,6 +28,7 @@ public:
     bool virayesh = false;
     int id=0,tedad;
     QString sum;
+    QString InsertComma(QString s);
 
     QSqlDatabase mydb;
     void dbclose(){
@@ -52,7 +53,6 @@ private slots:
     void SumTedad();
     bool ShebaCheck(QString s);
     QString InsertZero(QString s, int k);
-    QString InsertComma(QString s);
     void print(QPrinter *printer);
     void printD(QPrinter *printer);
     bool sehv();
