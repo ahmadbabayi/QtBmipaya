@@ -6,6 +6,7 @@
 
 #include "helpdialog.h"
 #include "aboutdialog.h"
+#include "chequeprintdialog.h"
 
 #include "xlsxdocument.h"
 #include "xlsxchartsheet.h"
@@ -24,10 +25,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Shamsi Calender
     QDateJalali Jalali;
-    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
-    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
-    QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
-    ui->TarixShamsi->setText("تاریخ امروز: "+JalailDate);
+    ui->TarixShamsi->setText("تاریخ امروز: "+Jalali.JalaliTarix());
 
     ui->ErsalSeri->setValidator( new QIntValidator);
     ui->ErsalSheba->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
@@ -506,14 +504,11 @@ void MainWindow::print(QPrinter *printer)
     QString txt;
     QSqlQuery query;
     QDateJalali Jalali;
-    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
-    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
-    QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 
     query.exec("SELECT * FROM paya");
 
     txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; }</style></head>"
-         "<body><div dir=\"rtl\"><div align=\"left\"> :تاریخ "+JalailDate+"</div><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
+         "<body><div dir=\"rtl\"><div align=\"left\"> :تاریخ "+Jalali.JalaliTarix()+"</div><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
          "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
     while (query.next()) {
         txt += "<tr bgcolor=\"#ffffff\"><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
@@ -539,9 +534,6 @@ void MainWindow::printD(QPrinter *printer)
     QSqlQuery query;
 
     QDateJalali Jalali;
-    int yyyy = QDate::currentDate().year(); int mm = QDate::currentDate().month(); int dd = QDate::currentDate().day();
-    QStringList shamsi=  Jalali.ToShamsi(  QString::number(yyyy), QString::number(mm), QString::number(dd));
-    QString JalailDate =shamsi.at(0)+"/"+shamsi.at(1)+"/"+shamsi.at(2);
 
     xmlfile = InsertZero(ui->ErsalSeri->text(),9);
     xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
@@ -551,12 +543,12 @@ void MainWindow::printD(QPrinter *printer)
     query.exec("SELECT * FROM paya");
 
     txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;}</style></head>"
-                 "<body><div dir=\"rtl\"><div> :تاریخ "+JalailDate+"</div><div dir=\"rtl\"> :شماره</div>"
+                 "<body><div dir=\"rtl\"><div> :تاریخ "+Jalali.JalaliTarix()+"</div><div dir=\"rtl\"> :شماره</div>"
                  "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
                     "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
                     "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
                     "<div>آدرس و تلفن </div><br>"
-                    "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+JalailDate+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
+                    "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+Jalali.JalaliTarix()+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
         "</b> .ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد </div>"
                  "<br><table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td> :نام فایل"+xmlfile+"<br> طول فایل به بایت --"+size+" --</td><td>مشخصات فایل پیوست</td></tr></table>"
                     "<p>‫و‬‫بدینوسیله‬ ‫تائید‬ ‫می‬ ‫نمایم‬ ‫که‬ ‫با‬ ‫ارائه‬ ‫این ‬‫دستور‬ ‫پرداخت‬ ‫و‬ ‫فایل پیوست‬‫ آن‬ ‫به‬ ‫بانک‬ ‫مسئولیت‬‫ صحت‬ ‫مندرجات ‬‫آن‬ ‫بر‬ ‫عهده‬ ‫اینجانب‬‫‪ /‬‬‫این‬ ‫شرکت‬ ‫بوده‬ ‫و‬ ‫کلیه شرایط ‬‫مندرج‬ ‫در‬ ‫ظهر‬ ‫دستور‬ ‫پرداخت‬ ‫و‬ ‫همچنین‬ ‫پرداخت‬‫ کارمزد‬ ‫به‬ ‫مبلغ‬ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;‬ ‫ریال ‬‫به‬ ‫بانک‬ ‫را‬ ‫می پذیرم‬‫‪.‬‬</p>"
@@ -721,5 +713,12 @@ void MainWindow::on_RestoerAction_triggered()
 void MainWindow::on_SearchEdit_textChanged(const QString &arg1)
 {
     TableReload();
+}
+
+
+void MainWindow::on_PrintCheque_triggered()
+{
+    ChequePrintDialog *chequeprint = new ChequePrintDialog();
+    chequeprint->show();
 }
 

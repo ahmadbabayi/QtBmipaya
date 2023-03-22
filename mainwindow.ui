@@ -416,7 +416,7 @@
      <x>0</x>
      <y>0</y>
      <width>971</width>
-     <height>21</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menu">
@@ -437,7 +437,14 @@
     <addaction name="HelpAction"/>
     <addaction name="AboutAction"/>
    </widget>
+   <widget class="QMenu" name="menu_3">
+    <property name="title">
+     <string>ابزارها</string>
+    </property>
+    <addaction name="PrintCheque"/>
+   </widget>
    <addaction name="menu"/>
+   <addaction name="menu_3"/>
    <addaction name="menu_2"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
@@ -469,6 +476,11 @@
   <action name="RestoerAction">
    <property name="text">
     <string>بازیابی لیست از فایل ایجاد شده</string>
+   </property>
+  </action>
+  <action name="PrintCheque">
+   <property name="text">
+    <string>چاپ چک</string>
    </property>
   </action>
  </widget>

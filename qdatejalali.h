@@ -11,9 +11,10 @@ class QDateJalali : public QObject
     Q_OBJECT
 public:
     explicit QDateJalali(QObject *parent = nullptr);
-    int div(int a,int b);
-    QStringList ToShamsi(QString year, QString month,QString day );
     QString JalaliDate();
+    QString JalaliTarix();
+    QString InsertZero(QString s, int k);
+    QStringList gregorian_to_jalali(long gy, long gm, long gd);
 
 signals:
 

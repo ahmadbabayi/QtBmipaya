@@ -10,6 +10,7 @@ include(./QXlsx/QXlsx.pri)
 
 SOURCES += \
     aboutdialog.cpp \
+    chequeprintdialog.cpp \
     helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -19,6 +20,7 @@ SOURCES += \
 
 HEADERS += \
     aboutdialog.h \
+    chequeprintdialog.h \
     helpdialog.h \
     mainwindow.h \
     num2str.h \
@@ -27,6 +29,7 @@ HEADERS += \
 
 FORMS += \
     aboutdialog.ui \
+    chequeprintdialog.ui \
     helpdialog.ui \
     mainwindow.ui
 RC_ICONS = favicon.ico

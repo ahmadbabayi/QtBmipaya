@@ -112,6 +112,8 @@ private slots:
 
    void on_SearchEdit_textChanged(const QString &arg1);
 
+   void on_PrintCheque_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
