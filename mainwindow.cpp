@@ -350,18 +350,12 @@ void MainWindow::on_PrintdButton_clicked()
 {
     if (ErsalSehv()){
         QPrinter *printer = new QPrinter();
-        //printer.setPageOrientation(QPageLayout::Landscape);
-        //printer.setPageSize(QPageSize::A4);
         printer->setFullPage(true);
-        printer->setPageSize(QPrinter::A4);
-        //printer.setOutputFormat(QPrinter::PdfFormat);
-        //printer.setOutputFileName("nonwritable.pdf");
+        QPageSize pageSize(QPageSize::A4);
+        printer->setPageSize(pageSize);
         QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
         connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(printD(QPrinter*)));
         printPreview->setWindowTitle("Preview Dialog");
-        //Qt::WindowFlags flags(Qt::WindowTitleHint);
-        //printPreview->setWindowFlags(flags);
-        //printPreview->setContentsMargins(10,10,10,10);
         printPreview->exec();
     }
 }
@@ -392,8 +386,8 @@ void MainWindow::on_PrintButton_clicked()
         QPrinter *printer = new QPrinter();
         //printer.setPageOrientation(QPageLayout::Landscape);
         //printer.setPageSize(QPageSize::A4);
-        printer->setFullPage(true);
-        printer->setPageSize(QPrinter::A4);
+        QPageSize pageSize(QPageSize::A4);
+        printer->setPageSize(pageSize);
         //printer.setOutputFormat(QPrinter::PdfFormat);
         //printer.setOutputFileName("nonwritable.pdf");
         QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
@@ -507,14 +501,15 @@ void MainWindow::print(QPrinter *printer)
 
     query.exec("SELECT * FROM paya");
 
-    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; }</style></head>"
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; }table, td {border: 1px solid black; border-collapse: collapse;}</style></head>"
          "<body><div dir=\"rtl\"><div align=\"left\"> :تاریخ "+Jalali.JalaliTarix()+"</div><h3 align=\"center\"> لیست واریزی پایای گروهی "+ui->ErsalName->text()+" بابت "+ui->ErsalSharh->text()+"</h3>"
-         "<table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
+         "<table border=\"1\" width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">"
+         "<tr><td>شرح</td><td>مبلغ</td><td>نام و نام خانوادگی</td><td>شناسه واریز</td><td>شماره شبا</td><td>ردیف</td></tr>";
     while (query.next()) {
-        txt += "<tr bgcolor=\"#ffffff\"><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
+        txt += "<tr><td>"+query.value(5).toString()+"</td><td>"+InsertComma(query.value(4).toString())+"</td><td>"+query.value(3).toString()+"</td><td>"+query.value(2).toString()+"</td><td>IR"+query.value(1).toString()+"</td><td>"+query.value(0).toString()+"</td></tr>";
     }
-    txt += "<tr bgcolor=\"#ffffff\"><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr>";
-    txt += "</table><table width=\"100%\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
+    txt += "<tr><td colspan=\"2\">"+InsertComma(sum)+"</td><td colspan=\"3\">&nbsp;</td><td>جمع</td></tr></table>";
+    txt += "<table width=\"100%\" style = \"border: 0px solid black; border-collapse: collapse;\"><tr align=\"left\"><th>مهر و امضاء بانک</th><th>مهر و امضاء امضاداران مجاز</th><tr></table></div></body></html>";
     QTextDocument document;
     //document.setDocumentMargin(0.1);
         document.setHtml(txt);

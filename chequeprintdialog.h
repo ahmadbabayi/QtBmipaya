@@ -2,6 +2,11 @@
 #define CHEQUEPRINTDIALOG_H
 
 #include <QDialog>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
+#include <QTextDocument>
 
 namespace Ui {
 class ChequePrintDialog;
@@ -16,13 +21,13 @@ public:
     ~ChequePrintDialog();
 
 private slots:
+    void print(QPrinter *printer);
+
     void on_TarixEdit_returnPressed();
 
     void on_MablaghEdit_returnPressed();
 
     void on_DarvachEdit_returnPressed();
-
-    void on_BabetEdit_4_returnPressed();
 
     void on_KodemelliEdit_returnPressed();
 
@@ -31,6 +36,8 @@ private slots:
     void on_MablaghEdit_textEdited(const QString &arg1);
 
     void on_BabetEdit_returnPressed();
+
+    void on_PrintButton_clicked();
 
 private:
     Ui::ChequePrintDialog *ui;

@@ -47,12 +47,6 @@ void ChequePrintDialog::on_DarvachEdit_returnPressed()
 }
 
 
-void ChequePrintDialog::on_BabetEdit_4_returnPressed()
-{
-    QWidget::focusNextChild();
-}
-
-
 void ChequePrintDialog::on_KodemelliEdit_returnPressed()
 {
     QWidget::focusNextChild();
@@ -61,7 +55,8 @@ void ChequePrintDialog::on_KodemelliEdit_returnPressed()
 
 void ChequePrintDialog::on_ExitButton_clicked()
 {
-    QApplication::exit();
+    //QApplication::exit();
+    ChequePrintDialog::close();
 }
 
 
@@ -76,5 +71,50 @@ void ChequePrintDialog::on_MablaghEdit_textEdited(const QString &arg1)
 void ChequePrintDialog::on_BabetEdit_returnPressed()
 {
     QWidget::focusNextChild();
+}
+
+
+void ChequePrintDialog::on_PrintButton_clicked()
+{
+    QPrinter *printer = new QPrinter();
+    printer->setFullPage(true);
+    QPageSize pageSize(QPageSize::A4);
+    printer->setPageSize(pageSize);
+    QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
+    connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(print(QPrinter*)));
+    printPreview->setWindowTitle("Preview Dialog");
+    printPreview->exec();
+}
+
+void ChequePrintDialog::print(QPrinter *printer)
+{
+    QString txt;
+
+    MainWindow *mainwindow = new MainWindow();
+    QString sum = mainwindow->sum;
+    Num2Str s;
+    QString h;
+    h = s.Adad2Huruf(sum);
+
+    txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; } table, th, td {border: 1px solid black; border-collapse: collapse;}</style></head>"
+         "<table dir=\"rtl\" width=\"100%\" cellspacing=\"0\" cellpadding=\"3\">"
+            "<tr>"
+            "<td colspan=\"3\">"+ui->TarixEdit->text()+"</td>"
+            "</tr>"
+            "<tr>"
+            "<td colspan=\"3\">"+h+"</td>"
+            "</tr>"
+            "</tr>"
+            "<tr>"
+            "<td>شناسه ملی "+ui->KodemelliEdit->text()+"</td><td>بابت "+ui->BabetEdit->text()+"</td><td>"+ui->DarvachEdit->text()+"</td>"
+            "</tr>"
+            "<tr>"
+            "<td align=\"left\" colspan=\"3\">"+mainwindow->InsertComma(sum)+"</td>"
+            "</tr>"
+            "</table>";
+    QTextDocument document;
+    //document.setDocumentMargin(0.1);
+        document.setHtml(txt);
+        document.print(printer);
 }
 
