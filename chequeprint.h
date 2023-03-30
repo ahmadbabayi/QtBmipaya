@@ -1,7 +1,7 @@
-#ifndef CHEQUEPRINTDIALOG_H
-#define CHEQUEPRINTDIALOG_H
+#ifndef CHEQUEPRINT_H
+#define CHEQUEPRINT_H
 
-#include <QDialog>
+#include <QMainWindow>
 #include <QPrintPreviewDialog>
 #include <QPrinter>
 #include <QPrintDialog>
@@ -9,16 +9,16 @@
 #include <QTextDocument>
 
 namespace Ui {
-class ChequePrintDialog;
+class ChequePrint;
 }
 
-class ChequePrintDialog : public QDialog
+class ChequePrint : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    explicit ChequePrintDialog(QString ersalname, QString ersalbabat, QWidget *parent = nullptr);
-    ~ChequePrintDialog();
+    explicit ChequePrint(QString ersalname, QString ersalbabat, QWidget *parent = nullptr);
+    ~ChequePrint();
 
 private slots:
     void print(QPrinter *printer);
@@ -29,18 +29,18 @@ private slots:
 
     void on_DarvachEdit_returnPressed();
 
+    void on_BabetEdit_returnPressed();
+
     void on_KodemelliEdit_returnPressed();
 
     void on_ExitButton_clicked();
 
-    void on_MablaghEdit_textEdited(const QString &arg1);
-
-    void on_BabetEdit_returnPressed();
-
     void on_PrintButton_clicked();
 
+    void on_MablaghEdit_textEdited(const QString &arg1);
+
 private:
-    Ui::ChequePrintDialog *ui;
+    Ui::ChequePrint *ui;
 };
 
-#endif // CHEQUEPRINTDIALOG_H
+#endif // CHEQUEPRINT_H
