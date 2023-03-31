@@ -11,27 +11,32 @@ include(./QXlsx/QXlsx.pri)
 SOURCES += \
     aboutdialog.cpp \
     chequeprint.cpp \
+    database.cpp \
     helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
     num2str.cpp \
     numberformatdelegate.cpp \
-    qdatejalali.cpp
+    qdatejalali.cpp \
+    setting.cpp
 
 HEADERS += \
     aboutdialog.h \
     chequeprint.h \
+    database.h \
     helpdialog.h \
     mainwindow.h \
     num2str.h \
     numberformatdelegate.h \
-    qdatejalali.h
+    qdatejalali.h \
+    setting.h
 
 FORMS += \
     aboutdialog.ui \
     chequeprint.ui \
     helpdialog.ui \
-    mainwindow.ui
+    mainwindow.ui \
+    setting.ui
 RC_ICONS = favicon.ico
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

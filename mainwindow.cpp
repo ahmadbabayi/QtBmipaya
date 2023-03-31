@@ -14,6 +14,8 @@
 #include "xlsxchart.h"
 #include "xlsxrichstring.h"
 #include "xlsxworkbook.h"
+#include "setting.h"
+
 using namespace QXlsx;
 
 
@@ -715,5 +717,12 @@ void MainWindow::on_PrintCheque_triggered()
 {
     ChequePrint *chequeprint = new ChequePrint(ui->ErsalName->text(),ui->ErsalSharh->text());
     chequeprint->show();
+}
+
+
+void MainWindow::on_Setting_triggered()
+{
+    Setting *setting = new Setting();
+    setting->show();
 }
 

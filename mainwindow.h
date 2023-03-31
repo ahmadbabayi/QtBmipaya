@@ -114,6 +114,8 @@ private slots:
 
    void on_PrintCheque_triggered();
 
+   void on_Setting_triggered();
+
 private:
     Ui::MainWindow *ui;
 };

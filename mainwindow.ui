@@ -428,8 +428,9 @@
     <addaction name="Excelmport"/>
     <addaction name="ExcelExport"/>
     <addaction name="separator"/>
+    <addaction name="Setting"/>
+    <addaction name="separator"/>
     <addaction name="ExitAction"/>
-    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -484,7 +485,7 @@
     <string>چاپ چک</string>
    </property>
   </action>
-  <action name="action">
+  <action name="Setting">
    <property name="text">
     <string>تنظیمات و مقادیر</string>
    </property>
