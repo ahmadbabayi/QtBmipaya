@@ -429,6 +429,7 @@
     <addaction name="ExcelExport"/>
     <addaction name="separator"/>
     <addaction name="ExitAction"/>
+    <addaction name="action"/>
    </widget>
    <widget class="QMenu" name="menu_2">
     <property name="title">
@@ -481,6 +482,11 @@
   <action name="PrintCheque">
    <property name="text">
     <string>چاپ چک</string>
+   </property>
+  </action>
+  <action name="action">
+   <property name="text">
+    <string>تنظیمات و مقادیر</string>
    </property>
   </action>
  </widget>
