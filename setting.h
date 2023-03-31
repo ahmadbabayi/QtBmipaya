@@ -2,7 +2,7 @@
 #define SETTING_H
 
 #include <QMainWindow>
-#include "database.h"
+#include <QRegularExpressionValidator>
 
 namespace Ui {
 class Setting;
@@ -15,6 +15,21 @@ class Setting : public QMainWindow
 public:
     explicit Setting(QWidget *parent = nullptr);
     ~Setting();
+
+private slots:
+    void on_NameEdit_returnPressed();
+
+    void on_ShebaEdit_returnPressed();
+
+    void on_TelEdit_returnPressed();
+
+    void on_AddressEdit_returnPressed();
+
+    void on_KodemelliEdit_returnPressed();
+
+    void on_BranchEdit_returnPressed();
+
+    void on_BranchKodEdit_returnPressed();
 
 private:
     Ui::Setting *ui;
