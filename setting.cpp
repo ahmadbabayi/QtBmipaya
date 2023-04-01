@@ -98,6 +98,7 @@ void Setting::on_SaveButton_clicked()
     if (sehv()){
         QSqlQuery query;
         query.exec("UPDATE payasetting SET name = '"+ui->NameEdit->text()+"', sheba = '"+ui->ShebaEdit->text()+"', tel = '"+ui->TelEdit->text()+"', address = '"+ui->AddressEdit->text()+"', kodemelli = '"+ui->KodemelliEdit->text()+"', branchname = '"+ui->BranchEdit->text()+"', branchcode = '"+ui->BranchCodeEdit->text()+"' WHERE id =1");
+        QMessageBox msgBox; msgBox.setText("اطلاعات ذخیره گردید."); msgBox.exec();
     }
 }
 

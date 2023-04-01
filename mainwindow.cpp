@@ -526,11 +526,20 @@ void MainWindow::printD(QPrinter *printer)
     xmlfile = "IR" + ui->ErsalSheba->text() + xmlfile + ".ccti";
 
     Num2Str s;
-    QString h;
+    QString h,address,tel,kodemelli,branch,branchcode;
     h = s.Adad2Huruf(sum);
 
-    QString txt;
     QSqlQuery query;
+    query.exec("SELECT * FROM payasetting WHERE id =1");
+    while (query.next()) {
+        tel = query.value(3).toString();
+        address = query.value(4).toString();
+        kodemelli = query.value(5).toString();
+        branch = query.value(6).toString();
+        branchcode = query.value(7).toString();
+    }
+
+    QString txt;
 
     QDateJalali Jalali;
 
@@ -544,9 +553,9 @@ void MainWindow::printD(QPrinter *printer)
     txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;}</style></head>"
                  "<body><div dir=\"rtl\"><div> :تاریخ "+Jalali.JalaliTarix()+"</div><div dir=\"rtl\"> :شماره</div>"
                  "<h3 align = \"center\">‫دستور‬‫پرداخت‬ ‫سامانه‬ ‫پایاپای‬ ‫الکترونیکی - پایا‬</h3>"
-                    "<div align = \"center\">‫بانک ملی ایران شعبه &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; کد شعبه ‪‬‬</div>"
-                    "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+"</b> </div>"
-                    "<div>آدرس و تلفن </div><br>"
+                    "<div align = \"center\">بانک ملی ایران شعبه "+branch+" کد شعبه "+branchcode+"‪‬‬</div>"
+                    "<br><div>اینجانب /شرکت <b>"+ui->ErsalName->text()+"</b> دارنده حساب شماره <b>"+ui->ErsalSheba->text().mid(11,13)+" به شناسه ملی "+kodemelli+"</b> </div>"
+                    "<div>آدرس و تلفن: "+address+"&nbsp;&nbsp;"+tel+"&nbsp;</div><br>"
                     "<div> بدینوسیله از بانک درخواست می‌کنیم که در تاریخ <b>"+Jalali.JalaliTarix()+"</b> جمعا مبلغ به عدد <b>"+InsertComma(sum)+"</b> ریال و به حروف <b>"+h+
         "</b> .ریال مطابق با جزئیات مندرج در فایل پیوست از محل حساب مبداء به حسابهای مقصد انتقال دهد </div>"
                  "<br><table width=\"100%\" cellspacing=\"1\" cellpadding=\"2\"  bgcolor=\"#000000\"><tr bgcolor=\"#ffffff\"><td> :نام فایل"+xmlfile+"<br> طول فایل به بایت --"+size+" --</td><td>مشخصات فایل پیوست</td></tr></table>"
