@@ -3,6 +3,8 @@
 
 #include <QMainWindow>
 #include <QRegularExpressionValidator>
+#include <QMessageBox>
+#include <QtSql>
 
 namespace Ui {
 class Setting;
@@ -17,6 +19,9 @@ public:
     ~Setting();
 
 private slots:
+    void SettingReload();
+    bool sehv();
+
     void on_NameEdit_returnPressed();
 
     void on_ShebaEdit_returnPressed();
@@ -29,7 +34,11 @@ private slots:
 
     void on_BranchEdit_returnPressed();
 
-    void on_BranchKodEdit_returnPressed();
+    void on_ExitButton_clicked();
+
+    void on_SaveButton_clicked();
+
+    void on_BranchCodeEdit_returnPressed();
 
 private:
     Ui::Setting *ui;

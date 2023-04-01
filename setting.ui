@@ -133,7 +133,7 @@
      <string>کد شعبه بانک: </string>
     </property>
    </widget>
-   <widget class="QPushButton" name="SabtButton">
+   <widget class="QPushButton" name="SaveButton">
     <property name="geometry">
      <rect>
       <x>660</x>
@@ -143,7 +143,7 @@
      </rect>
     </property>
     <property name="text">
-     <string>ثبت</string>
+     <string>ذخیره</string>
     </property>
    </widget>
    <widget class="QPushButton" name="ExitButton">
@@ -211,7 +211,7 @@
      <number>150</number>
     </property>
    </widget>
-   <widget class="QLineEdit" name="BranchKodEdit">
+   <widget class="QLineEdit" name="BranchCodeEdit">
     <property name="geometry">
      <rect>
       <x>460</x>
@@ -315,8 +315,8 @@
   <tabstop>AddressEdit</tabstop>
   <tabstop>KodemelliEdit</tabstop>
   <tabstop>BranchEdit</tabstop>
-  <tabstop>BranchKodEdit</tabstop>
-  <tabstop>SabtButton</tabstop>
+  <tabstop>BranchCodeEdit</tabstop>
+  <tabstop>SaveButton</tabstop>
   <tabstop>ExitButton</tabstop>
  </tabstops>
  <resources/>

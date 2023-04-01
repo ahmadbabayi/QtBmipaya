@@ -12,6 +12,7 @@ SOURCES += \
     aboutdialog.cpp \
     chequeprint.cpp \
     database.cpp \
+    functions.cpp \
     helpdialog.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -24,6 +25,7 @@ HEADERS += \
     aboutdialog.h \
     chequeprint.h \
     database.h \
+    functions.h \
     helpdialog.h \
     mainwindow.h \
     num2str.h \
