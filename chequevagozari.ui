@@ -36,7 +36,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit"/>
+       <widget class="QLineEdit" name="NameEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label">
@@ -50,7 +50,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_4">
       <item>
-       <widget class="QLineEdit" name="lineEdit_3"/>
+       <widget class="QLineEdit" name="KodemelliEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_4">
@@ -74,7 +74,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_2"/>
+       <widget class="QLineEdit" name="ShebaEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_3">
@@ -88,7 +88,7 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_5">
       <item>
-       <widget class="QLineEdit" name="lineEdit_6"/>
+       <widget class="QLineEdit" name="TelEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_9">
@@ -98,7 +98,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_5"/>
+       <widget class="QLineEdit" name="KodemelliAEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_8">
@@ -108,7 +108,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_4"/>
+       <widget class="QLineEdit" name="NameAEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_7">
@@ -135,7 +135,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLineEdit" name="lineEdit_7"/>
+       <widget class="QLineEdit" name="AddressEdit"/>
       </item>
       <item>
        <widget class="QLabel" name="label_10">
@@ -174,10 +174,10 @@
        </widget>
       </item>
       <item row="1" column="0">
-       <widget class="QLineEdit" name="lineEdit_10"/>
+       <widget class="QLineEdit" name="HesabEdit"/>
       </item>
       <item row="1" column="4">
-       <widget class="QLineEdit" name="lineEdit_8"/>
+       <widget class="QLineEdit" name="TarixEdit"/>
       </item>
       <item row="1" column="3">
        <widget class="QLabel" name="label_13">
@@ -194,7 +194,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLineEdit" name="lineEdit_9"/>
+       <widget class="QLineEdit" name="ShomareEdit"/>
       </item>
       <item row="2" column="5">
        <widget class="QLabel" name="label_15">
@@ -218,13 +218,13 @@
        </widget>
       </item>
       <item row="2" column="2">
-       <widget class="QLineEdit" name="lineEdit_12"/>
+       <widget class="QLineEdit" name="BranchEdit"/>
       </item>
       <item row="2" column="0">
-       <widget class="QLineEdit" name="lineEdit_13"/>
+       <widget class="QLineEdit" name="MablaghEdit"/>
       </item>
       <item row="2" column="4">
-       <widget class="QLineEdit" name="lineEdit_11"/>
+       <widget class="QLineEdit" name="BankEdit"/>
       </item>
      </layout>
     </item>
@@ -233,35 +233,35 @@
       <item>
        <widget class="QPushButton" name="pushButton_5">
         <property name="text">
-         <string>PushButton</string>
+         <string>بایگانی لیست</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_4">
         <property name="text">
-         <string>PushButton</string>
+         <string>چاپ فرم 380</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_3">
         <property name="text">
-         <string>PushButton</string>
+         <string>جذف چک</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton_2">
         <property name="text">
-         <string>PushButton</string>
+         <string>ویرایش</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QPushButton" name="pushButton">
         <property name="text">
-         <string>PushButton</string>
+         <string>ثبت </string>
         </property>
        </widget>
       </item>
@@ -288,6 +288,27 @@
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
+ <tabstops>
+  <tabstop>NameEdit</tabstop>
+  <tabstop>ShebaEdit</tabstop>
+  <tabstop>KodemelliEdit</tabstop>
+  <tabstop>NameAEdit</tabstop>
+  <tabstop>KodemelliAEdit</tabstop>
+  <tabstop>TelEdit</tabstop>
+  <tabstop>AddressEdit</tabstop>
+  <tabstop>TarixEdit</tabstop>
+  <tabstop>ShomareEdit</tabstop>
+  <tabstop>HesabEdit</tabstop>
+  <tabstop>BankEdit</tabstop>
+  <tabstop>BranchEdit</tabstop>
+  <tabstop>MablaghEdit</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton_5</tabstop>
+  <tabstop>tableView</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>
