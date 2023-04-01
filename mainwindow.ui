@@ -444,6 +444,7 @@
      <string>ابزارها</string>
     </property>
     <addaction name="PrintCheque"/>
+    <addaction name="Vagozari"/>
    </widget>
    <addaction name="menu"/>
    <addaction name="menu_3"/>
@@ -488,6 +489,11 @@
   <action name="Setting">
    <property name="text">
     <string>تنظیمات و مقادیر</string>
+   </property>
+  </action>
+  <action name="Vagozari">
+   <property name="text">
+    <string>واگذاری چک به حساب</string>
    </property>
   </action>
  </widget>
