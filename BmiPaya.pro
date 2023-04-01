@@ -11,6 +11,7 @@ include(./QXlsx/QXlsx.pri)
 SOURCES += \
     aboutdialog.cpp \
     chequeprint.cpp \
+    chequevagozari.cpp \
     database.cpp \
     functions.cpp \
     helpdialog.cpp \
@@ -24,6 +25,7 @@ SOURCES += \
 HEADERS += \
     aboutdialog.h \
     chequeprint.h \
+    chequevagozari.h \
     database.h \
     functions.h \
     helpdialog.h \
@@ -36,6 +38,7 @@ HEADERS += \
 FORMS += \
     aboutdialog.ui \
     chequeprint.ui \
+    chequevagozari.ui \
     helpdialog.ui \
     mainwindow.ui \
     setting.ui
