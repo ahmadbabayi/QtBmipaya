@@ -15,6 +15,7 @@
 #include "xlsxrichstring.h"
 #include "xlsxworkbook.h"
 #include "setting.h"
+#include "chequevagozari.h"
 
 using namespace QXlsx;
 
@@ -735,5 +736,12 @@ void MainWindow::on_Setting_triggered()
 {
     Setting *setting = new Setting();
     setting->show();
+}
+
+
+void MainWindow::on_Vagozari_triggered()
+{
+    ChequeVagozari *chequevagozari = new ChequeVagozari();
+    chequevagozari->show();
 }
 

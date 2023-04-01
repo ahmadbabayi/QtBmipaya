@@ -116,6 +116,8 @@ private slots:
 
    void on_Setting_triggered();
 
+   void on_Vagozari_triggered();
+
 private:
     Ui::MainWindow *ui;
 };
