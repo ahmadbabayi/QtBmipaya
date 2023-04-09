@@ -745,3 +745,21 @@ void MainWindow::on_Vagozari_triggered()
     chequevagozari->show();
 }
 
+
+void MainWindow::on_HazfButton_clicked()
+{
+    bool ok;
+    id = QInputDialog::getInt(this, tr("حذف رکورد موجود در لیست"), tr("شماره ردیف را وارد کنید:"), 1, 1, 100000, 1, &ok);
+    if (ok){
+    QSqlQuery query;
+    query.exec("DELETE FROM paya WHERE id =" + QString::number(id));
+    query.exec("SELECT * FROM paya");
+
+    query.exec("UPDATE paya SET id = (id -1) WHERE id > "+ QString::number(id));
+    query.exec("DELETE FROM sqlite_sequence");
+
+    TableReload();
+    SumTedad();
+    }
+}
+

@@ -340,6 +340,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QPushButton" name="HazfButton">
+        <property name="text">
+         <string>حذف ردیف</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QPushButton" name="EditButton">
         <property name="text">
          <string>ویراش</string>
