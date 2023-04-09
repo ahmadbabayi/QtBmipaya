@@ -16,6 +16,7 @@
 #include "xlsxworkbook.h"
 #include "setting.h"
 #include "chequevagozari.h"
+#include "database.h"
 
 using namespace QXlsx;
 
@@ -35,28 +36,13 @@ MainWindow::MainWindow(QWidget *parent)
     ui->Sheba->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->Shenaseh->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
 
-    QDir *datadir = new QDir();
-    if (!datadir->exists("BmiPaya_data")){
-        datadir->mkdir("BmiPaya_data");
-            }
-    if (!QFile::exists("BmiPaya_data/bmipayayeni.db")){
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("BmiPaya_data/bmipayayeni.db");
-        if (db.open()){
-            QSqlQuery query;
-            query.exec("create table paya (id INTEGER PRIMARY KEY AUTOINCREMENT, sheba TEXT, shenaseh TEXT, name TEXT, mablagh TEXT, sharh TEXT)");
-            query.exec("create table payaersal (id INTEGER PRIMARY KEY, sheba TEXT, seri TEXT, name TEXT, sharh TEXT)");
-            query.exec("INSERT INTO payaersal (id, sheba, seri, name, sharh) VALUES (1,'','','','')");
-            query.exec("create table payasetting (id INTEGER PRIMARY KEY, name TEXT, sheba TEXT, tel TEXT, address TEXT, kodemelli TEXT, branchname TEXT, branchcode TEXT)");
-            query.exec("INSERT INTO payasetting (id, name, sheba, tel, address, kodemelli, branchname, branchcode) VALUES (1,'','','','','','','')");
-            db.close();
-            db.removeDatabase(QSqlDatabase::defaultConnection);
-        }
-    }
+    Database db;
+    db.dbcreate();
 
-    if (!dbopen()){
+    if (!db.dbopen()){
         QMessageBox msgBox; msgBox.setText("Database Error."); msgBox.exec();
     }
+
     ErsalReload();
     TableReload();
     SumTedad();

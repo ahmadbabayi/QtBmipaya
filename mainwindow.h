@@ -30,23 +30,6 @@ public:
     QString sum;
     QString InsertComma(QString s);
 
-    QSqlDatabase mydb;
-    void dbclose(){
-        mydb.close();
-        mydb.removeDatabase(QSqlDatabase::defaultConnection);
-    }
-    bool dbopen(){
-        mydb = QSqlDatabase::addDatabase("QSQLITE");
-        mydb.setDatabaseName("BmiPaya_data/bmipayayeni.db");
-        if (!mydb.open()){
-            qDebug() << ("Failed to open database");
-            return false;
-        }
-        else {
-            return true;
-        }
-    }
-
 private slots:
     void TableReload();
     void ErsalReload();

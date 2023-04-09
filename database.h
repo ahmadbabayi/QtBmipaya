@@ -3,7 +3,9 @@
 
 #include <QObject>
 #include <QSqlDatabase>
+#include <QtSql>
 #include <QDebug>
+#include <QDir>
 
 class Database : public QObject
 {
@@ -11,6 +13,7 @@ class Database : public QObject
 public:
     explicit Database(QObject *parent = nullptr);
     QSqlDatabase mydb;
+    void dbcreate();
     bool dbopen();
     void dbclose();
 
