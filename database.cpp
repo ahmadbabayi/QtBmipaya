@@ -21,6 +21,7 @@ void Database::dbcreate(){
             query.exec("INSERT INTO payaersal (id, sheba, seri, name, sharh) VALUES (1,'','','','')");
             query.exec("create table payasetting (id INTEGER PRIMARY KEY, name TEXT, sheba TEXT, tel TEXT, address TEXT, kodemelli TEXT, branchname TEXT, branchcode TEXT)");
             query.exec("INSERT INTO payasetting (id, name, sheba, tel, address, kodemelli, branchname, branchcode) VALUES (1,'','','','','','','')");
+            query.exec("create table payavagozari (id INTEGER PRIMARY KEY AUTOINCREMENT, tarix TEXT, serial TEXT, hesab TEXT, bank TEXT, branch TEXT, mablagh TEXT)");
             db.close();
             db.removeDatabase(QSqlDatabase::defaultConnection);
         }

@@ -27,137 +27,6 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_2">
-      <item>
-       <widget class="QLabel" name="label_2">
-        <property name="text">
-         <string>تاریخ امروز: 1402/01/12</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="NameEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label">
-        <property name="text">
-         <string>نام صاحب حساب واگذارنده چک:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_4">
-      <item>
-       <widget class="QLineEdit" name="KodemelliEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_4">
-        <property name="text">
-         <string>کد ملی /شناسه ملی:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>          </string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_5">
-        <property name="text">
-         <string>IR</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="ShebaEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_3">
-        <property name="text">
-         <string>شماره شبا:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_5">
-      <item>
-       <widget class="QLineEdit" name="TelEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_9">
-        <property name="text">
-         <string>تلفن:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="KodemelliAEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_8">
-        <property name="text">
-         <string>کد ملی آورنده چک:</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="NameAEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_7">
-        <property name="text">
-         <string>نام آورنده چک:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_6">
-      <item>
-       <spacer name="horizontalSpacer">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>40</width>
-          <height>20</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
-       <widget class="QLineEdit" name="AddressEdit"/>
-      </item>
-      <item>
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>آدرس:</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
-      <item>
-       <widget class="Line" name="line">
-        <property name="orientation">
-         <enum>Qt::Horizontal</enum>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </item>
-    <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="5">
        <widget class="QLabel" name="label_11">
@@ -194,7 +63,7 @@
        </widget>
       </item>
       <item row="1" column="2">
-       <widget class="QLineEdit" name="ShomareEdit"/>
+       <widget class="QLineEdit" name="SerialEdit"/>
       </item>
       <item row="2" column="5">
        <widget class="QLabel" name="label_15">
@@ -231,30 +100,42 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
-       <widget class="QPushButton" name="pushButton_5">
+       <widget class="QPushButton" name="ArchiveButton">
         <property name="text">
          <string>بایگانی لیست</string>
         </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="PrintButton">
         <property name="text">
          <string>چاپ فرم 380</string>
         </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QPushButton" name="pushButton_3">
-        <property name="text">
-         <string>جذف چک</string>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="RemoveButton">
+        <property name="text">
+         <string>جذف چک</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="EditButton">
         <property name="text">
          <string>ویرایش</string>
+        </property>
+        <property name="autoDefault">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
@@ -263,6 +144,9 @@
         <property name="text">
          <string>ثبت </string>
         </property>
+        <property name="autoDefault">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
      </layout>
@@ -270,7 +154,11 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_10">
       <item>
-       <widget class="QTableView" name="tableView"/>
+       <widget class="QTableView" name="tableView">
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+       </widget>
       </item>
      </layout>
     </item>
@@ -289,24 +177,17 @@
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
  <tabstops>
-  <tabstop>NameEdit</tabstop>
-  <tabstop>ShebaEdit</tabstop>
-  <tabstop>KodemelliEdit</tabstop>
-  <tabstop>NameAEdit</tabstop>
-  <tabstop>KodemelliAEdit</tabstop>
-  <tabstop>TelEdit</tabstop>
-  <tabstop>AddressEdit</tabstop>
   <tabstop>TarixEdit</tabstop>
-  <tabstop>ShomareEdit</tabstop>
+  <tabstop>SerialEdit</tabstop>
   <tabstop>HesabEdit</tabstop>
   <tabstop>BankEdit</tabstop>
   <tabstop>BranchEdit</tabstop>
   <tabstop>MablaghEdit</tabstop>
   <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>pushButton_5</tabstop>
+  <tabstop>EditButton</tabstop>
+  <tabstop>RemoveButton</tabstop>
+  <tabstop>PrintButton</tabstop>
+  <tabstop>ArchiveButton</tabstop>
   <tabstop>tableView</tabstop>
  </tabstops>
  <resources/>
