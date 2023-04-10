@@ -5,6 +5,11 @@
 #include <QMessageBox>
 #include <QtSql>
 #include <QInputDialog>
+#include <QPrintPreviewDialog>
+#include <QPrinter>
+#include <QPrintDialog>
+#include <QPainter>
+#include <QTextDocument>
 
 namespace Ui {
 class ChequeVagozari;
@@ -23,6 +28,7 @@ public:
 private slots:
     bool sehv();
     void TableReload();
+    void Print(QPrinter *printer);
 
     void on_pushButton_clicked();
 
@@ -43,6 +49,8 @@ private slots:
     void on_EditButton_clicked();
 
     void on_RemoveButton_clicked();
+
+    void on_PrintButton_clicked();
 
 private:
     Ui::ChequeVagozari *ui;

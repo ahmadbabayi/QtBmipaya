@@ -184,6 +184,24 @@ void ChequeVagozari::on_RemoveButton_clicked()
 
 void ChequeVagozari::on_PrintButton_clicked()
 {
+    QPrinter *printer = new QPrinter();
+    printer->setFullPage(true);
+    QPageSize pageSize(QPageSize::A4);
+    printer->setPageSize(pageSize);
+    QPrintPreviewDialog *printPreview = new QPrintPreviewDialog(printer);
+    connect(printPreview, SIGNAL(paintRequested(QPrinter*)), this, SLOT(Print(QPrinter*)));
+    printPreview->setWindowTitle("Preview Dialog");
+    printPreview->exec();
+}
 
+void ChequeVagozari::Print(QPrinter *printer){
+        QString txt;
+        QDateJalali Jalali;
+        txt="<html width=\"100%\"><head><style>body {direction: rtl; font-family: \"B Nazanin\", \"Times New Roman\", Tahoma; font-size: 16px;}</style></head>"
+                     "<body><div dir=\"rtl\"><div> :تاریخ "+Jalali.JalaliTarix()+"</div><div dir=\"rtl\"> :شماره</div>"
+                        "</body></html>";
+        QTextDocument document;
+        document.setHtml(txt);
+        document.print(printer);
 }
 
