@@ -3,6 +3,7 @@
 #include "numberformatdelegate.h"
 #include "qdatejalali.h"
 #include "database.h"
+#include "functions.h"
 
 ChequeVagozari::ChequeVagozari(QWidget *parent) :
     QMainWindow(parent),
@@ -12,6 +13,7 @@ ChequeVagozari::ChequeVagozari(QWidget *parent) :
 
     ui->SerialEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->HesabEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
+    ui->TarixEdit->setInputMask("0000/00/00");
 
     Database db;
     if (!db.dbopen()){
@@ -78,10 +80,10 @@ void ChequeVagozari::on_pushButton_clicked()
     if (sehv()){
         QSqlQuery query;
         if (virayesh){
-            //query.exec("UPDATE payavagozari SET sheba = '"+ui->Sheba->text()+"', shenaseh = '"+ui->Shenaseh->text()+"', name = '"+ui->Name->text()+"', mablagh = '"+ui->Mablagh->text().replace(",","")+"', sharh = '"+ui->Sharh->text()+"' WHERE id ="+ QString::number(id));
+            query.exec("UPDATE payavagozari SET tarix = '"+ui->TarixEdit->text()+"', serial = '"+ui->SerialEdit->text()+"', hesab = '"+ui->HesabEdit->text()+"', bank = '"+ui->BankEdit->text()+"', branch = '"+ui->BranchEdit->text()+"', mablagh = '"+ui->MablaghEdit->text().replace(",","")+"' WHERE id ="+ QString::number(id));
         }
         else{
-            query.exec("INSERT INTO payavagozari (tarix, serial, hesab, bank, branch, mablagh) VALUES ('"+ui->TarixEdit->text()+"','"+ui->SerialEdit->text()+"','"+ui->HesabEdit->text()+"','"+ui->BankEdit->text().replace(",","")+"','"+ui->BranchEdit->text()+"','"+ui->MablaghEdit->text()+"')");
+            query.exec("INSERT INTO payavagozari (tarix, serial, hesab, bank, branch, mablagh) VALUES ('"+ui->TarixEdit->text()+"','"+ui->SerialEdit->text()+"','"+ui->HesabEdit->text()+"','"+ui->BankEdit->text().replace(",","")+"','"+ui->BranchEdit->text()+"','"+ui->MablaghEdit->text().replace(",","")+"')");
         }
 
         ui->TarixEdit->setFocus();
@@ -131,5 +133,57 @@ void ChequeVagozari::on_BranchEdit_returnPressed()
 void ChequeVagozari::on_MablaghEdit_returnPressed()
 {
     QWidget::focusNextChild();
+}
+
+
+void ChequeVagozari::on_MablaghEdit_textEdited(const QString &arg1)
+{
+    Functions func;
+    QString str;
+        str = func.InsertComma(ui->MablaghEdit->text().replace(",",""));
+        ui->MablaghEdit->setText(str);
+}
+
+
+void ChequeVagozari::on_EditButton_clicked()
+{
+    bool ok;
+    Functions func;
+    id = QInputDialog::getInt(this, tr("ویرایش رکورد موجود در لیست"), tr("شماره ردیف را وارد کنید:"), 1, 1, 100000, 1, &ok);
+    if (ok){
+        QSqlQuery query;
+        query.exec("SELECT * FROM payavagozari WHERE id =" + QString::number(id));
+        while (query.next()) {
+                ui->TarixEdit->setText(query.value(1).toString());
+                ui->SerialEdit->setText(query.value(2).toString());
+                ui->HesabEdit->setText(query.value(3).toString());
+                ui->BankEdit->setText(query.value(4).toString());
+                ui->BranchEdit->setText(query.value(5).toString());
+                ui->MablaghEdit->setText(func.InsertComma(query.value(6).toString()));
+                ui->TarixEdit->setFocus();
+        }
+     virayesh = true;
+     }
+}
+
+
+void ChequeVagozari::on_RemoveButton_clicked()
+{
+    bool ok;
+        id = QInputDialog::getInt(this, tr("حذف رکورد موجود در لیست"), tr("شماره ردیف را وارد کنید:"), 1, 1, 100000, 1, &ok);
+        if (ok){
+        QSqlQuery query;
+        query.exec("DELETE FROM payavagozari WHERE id =" + QString::number(id));
+        query.exec("UPDATE payavagozari SET id = (id -1) WHERE id > "+ QString::number(id));
+        query.exec("DELETE FROM sqlite_sequence");
+
+        TableReload();
+        }
+}
+
+
+void ChequeVagozari::on_PrintButton_clicked()
+{
+
 }
 

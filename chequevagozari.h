@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QMessageBox>
 #include <QtSql>
+#include <QInputDialog>
 
 namespace Ui {
 class ChequeVagozari;
@@ -17,6 +18,7 @@ public:
     explicit ChequeVagozari(QWidget *parent = nullptr);
     ~ChequeVagozari();
     bool virayesh = false;
+    int id;
 
 private slots:
     bool sehv();
@@ -35,6 +37,12 @@ private slots:
     void on_BranchEdit_returnPressed();
 
     void on_MablaghEdit_returnPressed();
+
+    void on_MablaghEdit_textEdited(const QString &arg1);
+
+    void on_EditButton_clicked();
+
+    void on_RemoveButton_clicked();
 
 private:
     Ui::ChequeVagozari *ui;

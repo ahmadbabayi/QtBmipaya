@@ -739,8 +739,6 @@ void MainWindow::on_HazfButton_clicked()
     if (ok){
     QSqlQuery query;
     query.exec("DELETE FROM paya WHERE id =" + QString::number(id));
-    query.exec("SELECT * FROM paya");
-
     query.exec("UPDATE paya SET id = (id -1) WHERE id > "+ QString::number(id));
     query.exec("DELETE FROM sqlite_sequence");
 
