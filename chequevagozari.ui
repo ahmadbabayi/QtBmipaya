@@ -122,6 +122,27 @@
      </layout>
     </item>
     <item>
+     <layout class="QHBoxLayout" name="horizontalLayout">
+      <item>
+       <widget class="QLineEdit" name="ShenasehEdit">
+        <property name="maxLength">
+         <number>50</number>
+        </property>
+        <property name="placeholderText">
+         <string>در صورتی که واریز به حساب دارای شناسه واریز باشد این فیلد پر گردد.</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label">
+        <property name="text">
+         <string>شناسه واریز:</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
      <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
        <widget class="QPushButton" name="ArchiveButton">
@@ -164,7 +185,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="SabtButton">
         <property name="text">
          <string>ثبت </string>
         </property>
@@ -207,7 +228,8 @@
   <tabstop>BankEdit</tabstop>
   <tabstop>BranchEdit</tabstop>
   <tabstop>MablaghEdit</tabstop>
-  <tabstop>pushButton</tabstop>
+  <tabstop>ShenasehEdit</tabstop>
+  <tabstop>SabtButton</tabstop>
   <tabstop>EditButton</tabstop>
   <tabstop>RemoveButton</tabstop>
   <tabstop>PrintButton</tabstop>

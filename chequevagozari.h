@@ -30,7 +30,7 @@ private slots:
     void TableReload();
     void Print(QPrinter *printer);
 
-    void on_pushButton_clicked();
+    void on_SabtButton_clicked();
 
     void on_TarixEdit_returnPressed();
 
@@ -51,6 +51,8 @@ private slots:
     void on_RemoveButton_clicked();
 
     void on_PrintButton_clicked();
+
+    void on_ShenasehEdit_returnPressed();
 
 private:
     Ui::ChequeVagozari *ui;
