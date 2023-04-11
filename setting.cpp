@@ -12,6 +12,7 @@ Setting::Setting(QWidget *parent) :
     ui->NameEdit->setFocus();
     ui->ShebaEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->KodemelliEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
+    ui->KodemelliNomayandeEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->BranchCodeEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     SettingReload();
 }
@@ -30,8 +31,10 @@ void Setting::SettingReload(){
             ui->TelEdit->setText(query.value(3).toString());
             ui->AddressEdit->setText(query.value(4).toString());
             ui->KodemelliEdit->setText(query.value(5).toString());
-            ui->BranchEdit->setText(query.value(6).toString());
-            ui->BranchCodeEdit->setText(query.value(7).toString());
+            ui->NameNomayandeEdit->setText(query.value(6).toString());
+            ui->KodemelliNomayandeEdit->setText(query.value(7).toString());
+            ui->BranchEdit->setText(query.value(8).toString());
+            ui->BranchCodeEdit->setText(query.value(9).toString());
     }
 }
 
@@ -97,11 +100,23 @@ void Setting::on_SaveButton_clicked()
 {
     if (sehv()){
         QSqlQuery query;
-        query.exec("UPDATE payasetting SET name = '"+ui->NameEdit->text()+"', sheba = '"+ui->ShebaEdit->text()+"', tel = '"+ui->TelEdit->text()+"', address = '"+ui->AddressEdit->text()+"', kodemelli = '"+ui->KodemelliEdit->text()+"', branchname = '"+ui->BranchEdit->text()+"', branchcode = '"+ui->BranchCodeEdit->text()+"' WHERE id =1");
+        query.exec("UPDATE payasetting SET name = '"+ui->NameEdit->text()+"', sheba = '"+ui->ShebaEdit->text()+"', tel = '"+ui->TelEdit->text()+"', address = '"+ui->AddressEdit->text()+"', kodemelli = '"+ui->KodemelliEdit->text()+"', namenomayande = '"+ui->NameNomayandeEdit->text()+"', kodemellinomayande = '"+ui->KodemelliNomayandeEdit->text()+"', branchname = '"+ui->BranchEdit->text()+"', branchcode = '"+ui->BranchCodeEdit->text()+"' WHERE id =1");
         QMessageBox msgBox; msgBox.setText("اطلاعات ذخیره گردید."); msgBox.exec();
     }
 }
 
 
 
+
+
+void Setting::on_NameNomayandeEdit_returnPressed()
+{
+    QWidget::focusNextChild();
+}
+
+
+void Setting::on_KodemelliNomayandeEdit_returnPressed()
+{
+    QWidget::focusNextChild();
+}
 

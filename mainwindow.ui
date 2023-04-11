@@ -495,7 +495,7 @@
   </action>
   <action name="Setting">
    <property name="text">
-    <string>تنظیمات و مقادیر</string>
+    <string>ثبت اطلاعات صاحب حساب</string>
    </property>
   </action>
   <action name="Vagozari">

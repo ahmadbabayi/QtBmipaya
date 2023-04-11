@@ -40,6 +40,10 @@ private slots:
 
     void on_BranchCodeEdit_returnPressed();
 
+    void on_NameNomayandeEdit_returnPressed();
+
+    void on_KodemelliNomayandeEdit_returnPressed();
+
 private:
     Ui::Setting *ui;
 };

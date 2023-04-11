@@ -19,13 +19,43 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>واگذاری، مدیریت و چاپ فرم واگذاری چک</string>
+   <string>ثبت و چاپ فرم واگذاری چک</string>
   </property>
   <property name="locale">
    <locale language="Persian" country="Iran"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <family>Tahoma</family>
+          <pointsize>11</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>توجه: برای چاپ اطلاعات صاحب حساب در فرم واگذاری، دقت کنید که ثبت مشخصات صاحب حساب در منوی File انجام شده باشد.</string>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="horizontalLayout_3">
+      <item>
+       <widget class="Line" name="line">
+        <property name="orientation">
+         <enum>Qt::Horizontal</enum>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
     <item>
      <layout class="QGridLayout" name="gridLayout">
       <item row="0" column="5">
@@ -145,12 +175,9 @@
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_8">
       <item>
-       <widget class="QPushButton" name="ArchiveButton">
+       <widget class="QPushButton" name="RemoveListButton">
         <property name="text">
-         <string>بایگانی لیست</string>
-        </property>
-        <property name="autoDefault">
-         <bool>true</bool>
+         <string>حذف لیست</string>
         </property>
        </widget>
       </item>
@@ -218,8 +245,20 @@
      <height>27</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="SabtZinafAction"/>
+   </widget>
+   <addaction name="menuFile"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
+  <action name="SabtZinafAction">
+   <property name="text">
+    <string>ثبت اطلاعات صاحب حساب</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>TarixEdit</tabstop>
@@ -233,7 +272,6 @@
   <tabstop>EditButton</tabstop>
   <tabstop>RemoveButton</tabstop>
   <tabstop>PrintButton</tabstop>
-  <tabstop>ArchiveButton</tabstop>
   <tabstop>tableView</tabstop>
  </tabstops>
  <resources/>

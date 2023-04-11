@@ -4,6 +4,7 @@
 #include "qdatejalali.h"
 #include "database.h"
 #include "functions.h"
+#include "setting.h"
 
 ChequeVagozari::ChequeVagozari(QWidget *parent) :
     QMainWindow(parent),
@@ -14,6 +15,8 @@ ChequeVagozari::ChequeVagozari(QWidget *parent) :
     ui->SerialEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->HesabEdit->setValidator(new QRegularExpressionValidator(QRegularExpression("[0-9]*")));
     ui->TarixEdit->setInputMask("0000/00/00");
+    ui->TarixEdit->setFocus();
+    ui->TarixEdit->selectAll();
 
     Database db;
     if (!db.dbopen()){
@@ -86,8 +89,6 @@ void ChequeVagozari::on_SabtButton_clicked()
         else{
             query.exec("INSERT INTO payavagozari (tarix, serial, hesab, bank, branch, mablagh, shenaseh) VALUES ('"+ui->TarixEdit->text()+"','"+ui->SerialEdit->text()+"','"+ui->HesabEdit->text()+"','"+ui->BankEdit->text().replace(",","")+"','"+ui->BranchEdit->text()+"','"+ui->MablaghEdit->text().replace(",","")+"','"+ui->ShenasehEdit->text()+"')");
         }
-
-        ui->TarixEdit->setFocus();
         ui->TarixEdit->setText("");
         ui->SerialEdit->setText("");
         ui->HesabEdit->setText("");
@@ -95,6 +96,8 @@ void ChequeVagozari::on_SabtButton_clicked()
         ui->BranchEdit->setText("");
         ui->MablaghEdit->setText("");
         TableReload();
+        ui->TarixEdit->setFocus();
+        ui->TarixEdit->selectAll();
         ui->tableView->scrollToBottom();
         virayesh = false;
     }
@@ -150,6 +153,14 @@ void ChequeVagozari::on_MablaghEdit_textEdited(const QString &arg1)
         ui->MablaghEdit->setText(str);
 }
 
+void ChequeVagozari::on_RemoveListButton_clicked()
+{
+    QSqlQuery query;
+    query.exec("DELETE FROM payavagozari");
+    query.exec("DELETE FROM sqlite_sequence");
+    TableReload();
+    ui->TarixEdit->setFocus();
+}
 
 void ChequeVagozari::on_EditButton_clicked()
 {
@@ -183,7 +194,7 @@ void ChequeVagozari::on_RemoveButton_clicked()
         query.exec("DELETE FROM payavagozari WHERE id =" + QString::number(id));
         query.exec("UPDATE payavagozari SET id = (id -1) WHERE id > "+ QString::number(id));
         query.exec("DELETE FROM sqlite_sequence");
-
+        ui->TarixEdit->setFocus();
         TableReload();
         }
 }
@@ -253,5 +264,18 @@ void ChequeVagozari::Print(QPrinter *printer){
         QTextDocument document;
         document.setHtml(txt);
         document.print(printer);
+}
+
+void ChequeVagozari::on_SabtZinafButton_clicked()
+{
+    Setting *setting = new Setting();
+    setting->show();
+}
+
+
+void ChequeVagozari::on_SabtZinafAction_triggered()
+{
+    Setting *setting = new Setting();
+    setting->show();
 }
 
