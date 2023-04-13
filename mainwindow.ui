@@ -264,7 +264,7 @@
          <enum>Qt::RightToLeft</enum>
         </property>
         <property name="text">
-         <string>نسخه: 14020112</string>
+         <string>نسخه: 14020124</string>
         </property>
        </widget>
       </item>

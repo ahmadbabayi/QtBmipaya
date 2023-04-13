@@ -18,11 +18,6 @@ ChequeVagozari::ChequeVagozari(QWidget *parent) :
     ui->TarixEdit->setInputMask("0000/00/00");
     ui->TarixEdit->setFocus();
     ui->TarixEdit->selectAll();
-
-    Database db;
-    if (!db.dbopen()){
-        QMessageBox msgBox; msgBox.setText("Database Error."); msgBox.exec();
-    }
     TableReload();
 }
 
@@ -161,6 +156,7 @@ void ChequeVagozari::on_RemoveListButton_clicked()
     query.exec("DELETE FROM sqlite_sequence");
     TableReload();
     ui->TarixEdit->setFocus();
+    ui->TarixEdit->selectAll();
 }
 
 void ChequeVagozari::on_EditButton_clicked()
@@ -180,6 +176,7 @@ void ChequeVagozari::on_EditButton_clicked()
                 ui->MablaghEdit->setText(func.InsertComma(query.value(6).toString()));
                 ui->ShenasehEdit->setText(query.value(7).toString());
                 ui->TarixEdit->setFocus();
+                ui->TarixEdit->selectAll();
         }
      virayesh = true;
      }
@@ -196,6 +193,7 @@ void ChequeVagozari::on_RemoveButton_clicked()
         query.exec("UPDATE payavagozari SET id = (id -1) WHERE id > "+ QString::number(id));
         query.exec("DELETE FROM sqlite_sequence");
         ui->TarixEdit->setFocus();
+        ui->TarixEdit->selectAll();
         TableReload();
         }
 }
@@ -280,13 +278,6 @@ void ChequeVagozari::Print(QPrinter *printer){
         document.setHtml(txt);
         document.print(printer);
 }
-
-void ChequeVagozari::on_SabtZinafButton_clicked()
-{
-    Setting *setting = new Setting();
-    setting->show();
-}
-
 
 void ChequeVagozari::on_SabtZinafAction_triggered()
 {

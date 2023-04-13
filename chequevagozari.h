@@ -56,8 +56,6 @@ private slots:
 
     void on_RemoveListButton_clicked();
 
-    void on_SabtZinafButton_clicked();
-
     void on_SabtZinafAction_triggered();
 
 private:
