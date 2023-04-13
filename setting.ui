@@ -57,7 +57,7 @@
     <property name="geometry">
      <rect>
       <x>690</x>
-      <y>130</y>
+      <y>120</y>
       <width>51</width>
       <height>21</height>
      </rect>
@@ -73,7 +73,7 @@
     <property name="geometry">
      <rect>
       <x>670</x>
-      <y>170</y>
+      <y>160</y>
       <width>71</width>
       <height>21</height>
      </rect>
@@ -89,7 +89,7 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>210</y>
+      <y>240</y>
       <width>191</width>
       <height>21</height>
      </rect>
@@ -105,7 +105,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>340</y>
+      <y>360</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -121,7 +121,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>380</y>
+      <y>400</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -136,8 +136,8 @@
    <widget class="QPushButton" name="SaveButton">
     <property name="geometry">
      <rect>
-      <x>660</x>
-      <y>420</y>
+      <x>590</x>
+      <y>440</y>
       <width>90</width>
       <height>28</height>
      </rect>
@@ -152,8 +152,8 @@
    <widget class="QPushButton" name="ExitButton">
     <property name="geometry">
      <rect>
-      <x>510</x>
-      <y>420</y>
+      <x>460</x>
+      <y>440</y>
       <width>90</width>
       <height>28</height>
      </rect>
@@ -166,7 +166,7 @@
     <property name="geometry">
      <rect>
       <x>390</x>
-      <y>130</y>
+      <y>120</y>
       <width>161</width>
       <height>28</height>
      </rect>
@@ -179,7 +179,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>160</y>
       <width>541</width>
       <height>28</height>
      </rect>
@@ -192,7 +192,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>210</y>
+      <y>240</y>
       <width>171</width>
       <height>28</height>
      </rect>
@@ -205,7 +205,7 @@
     <property name="geometry">
      <rect>
       <x>320</x>
-      <y>340</y>
+      <y>360</y>
       <width>231</width>
       <height>28</height>
      </rect>
@@ -218,7 +218,7 @@
     <property name="geometry">
      <rect>
       <x>460</x>
-      <y>380</y>
+      <y>400</y>
       <width>91</width>
       <height>28</height>
      </rect>
@@ -231,7 +231,7 @@
     <property name="geometry">
      <rect>
       <x>590</x>
-      <y>50</y>
+      <y>40</y>
       <width>151</width>
       <height>21</height>
      </rect>
@@ -247,7 +247,7 @@
     <property name="geometry">
      <rect>
       <x>640</x>
-      <y>90</y>
+      <y>80</y>
       <width>101</width>
       <height>21</height>
      </rect>
@@ -263,7 +263,7 @@
     <property name="geometry">
      <rect>
       <x>190</x>
-      <y>50</y>
+      <y>40</y>
       <width>361</width>
       <height>28</height>
      </rect>
@@ -273,7 +273,7 @@
     <property name="geometry">
      <rect>
       <x>280</x>
-      <y>90</y>
+      <y>80</y>
       <width>271</width>
       <height>28</height>
      </rect>
@@ -302,7 +302,7 @@
     <property name="geometry">
      <rect>
       <x>550</x>
-      <y>250</y>
+      <y>280</y>
       <width>191</width>
       <height>21</height>
      </rect>
@@ -318,7 +318,7 @@
     <property name="geometry">
      <rect>
       <x>620</x>
-      <y>300</y>
+      <y>320</y>
       <width>121</width>
       <height>21</height>
      </rect>
@@ -334,7 +334,7 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>250</y>
+      <y>280</y>
       <width>171</width>
       <height>28</height>
      </rect>
@@ -347,13 +347,42 @@
     <property name="geometry">
      <rect>
       <x>380</x>
-      <y>290</y>
+      <y>320</y>
       <width>171</width>
       <height>28</height>
      </rect>
     </property>
     <property name="maxLength">
      <number>11</number>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_12">
+    <property name="geometry">
+     <rect>
+      <x>650</x>
+      <y>200</y>
+      <width>91</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="layoutDirection">
+     <enum>Qt::RightToLeft</enum>
+    </property>
+    <property name="text">
+     <string>کد پستی: </string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="KodePostiEdit">
+    <property name="geometry">
+     <rect>
+      <x>380</x>
+      <y>200</y>
+      <width>171</width>
+      <height>28</height>
+     </rect>
+    </property>
+    <property name="maxLength">
+     <number>10</number>
     </property>
    </widget>
   </widget>
@@ -374,6 +403,7 @@
   <tabstop>ShebaEdit</tabstop>
   <tabstop>TelEdit</tabstop>
   <tabstop>AddressEdit</tabstop>
+  <tabstop>KodePostiEdit</tabstop>
   <tabstop>KodemelliEdit</tabstop>
   <tabstop>NameNomayandeEdit</tabstop>
   <tabstop>KodemelliNomayandeEdit</tabstop>

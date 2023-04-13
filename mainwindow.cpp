@@ -521,9 +521,9 @@ void MainWindow::printD(QPrinter *printer)
     while (query.next()) {
         tel = query.value(3).toString();
         address = query.value(4).toString();
-        kodemelli = query.value(5).toString();
-        branch = query.value(6).toString();
-        branchcode = query.value(7).toString();
+        kodemelli = query.value(6).toString();
+        branch = query.value(9).toString();
+        branchcode = query.value(10).toString();
     }
 
     QString txt;
